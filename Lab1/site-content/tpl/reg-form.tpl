@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <script type="text/javascript" async src="/js/validator.js"></script>
   </head>
   <body>
     <div class="container">
@@ -14,13 +15,13 @@
         </h2>
       </div>
       <div class="row">
-        <form action="/form" method="POST">
+        <form action="/form" method="POST" onsubmit="return validateForm();">
           <div class="form-group">
             <label for="exampleInputNickname">Nickname</label>
             {{if .showAlertName}}
               <div class="alert alert-danger" role="alert">{{.alertMessage}}</div>
             {{end}}
-            <input type="text" class="form-control" id="exampleInputEmail1" value="{{.userNickname}}" placeholder="Your Nickname" name="userNickname">
+            <input type="text" class="form-control" id="exampleInputNickname" value="{{.userNickname}}" placeholder="Your Nickname" name="userNickname">
             <p class="help-block">Nickname should contain only English letters, digits and underscores.</p>
           </div>
           <div class="form-group">
@@ -28,11 +29,11 @@
             {{if .showAlertEmail}}
               <div class="alert alert-danger" role="alert">{{.alertMessage}}</div>
             {{end}}
-            <input type="email" class="form-control" id="exampleInputEmail1" value="{{.userEmail}}" placeholder="Your Email" name="userEmail">
+            <input type="email" class="form-control" id="exampleInputEmail" value="{{.userEmail}}" placeholder="Your Email" name="userEmail">
             <p class="help-block">Only GMail, Yandex Mail and Mail.ru email addresses allowed.</p>
           </div>
           <div class="form-group">
-            <label for="exampleInputPassword">Password</label>
+            <label for="exampleInputPassword1">Password</label>
             {{if .showAlertPassword}}
               <div class="alert alert-danger" role="alert">{{.alertMessage}}</div>
             {{end}}
