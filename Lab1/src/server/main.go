@@ -38,6 +38,16 @@ func RenderUserPage(ctx *gin.Context, user *SiteUser) {
   })
 }
 
+func RenderCalcPage(ctx *gin.Context, expr string, result string) {
+  ctx.HTML(http.StatusOK, "calc.tpl", gin.H{
+    "title": "Calculate Expression",
+	"expression" : expr,
+	"showAlertExpr" : false,
+	"alertMessage" : "",
+	"calcResult" : result,
+  })
+}
+
 func main() {
   cache := NewSiteUsersCache()
   validator := new(RegisterFormValidator)
@@ -52,6 +62,14 @@ func main() {
   router.LoadHTMLGlob("../site-content/tpl/*.tpl")
   router.GET("/form", func(ctx *gin.Context) {
     RenderRegisterForm(ctx, nil, nil)
+  })
+  router.GET("/calc", func(ctx *gin.Context) {
+	RenderCalcPage(ctx, "2 + 2", "4")
+  })
+  router.POST("/calc", func(ctx *gin.Context) {
+	expression := ctx.PostForm("expression")
+	result := "42"
+	RenderCalcPage(ctx, expression, result)
   })
   router.POST("/form", func(ctx *gin.Context) {
 	user.email = ctx.PostForm("userEmail")
