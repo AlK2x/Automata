@@ -47,12 +47,7 @@ extern int yydebug;
       know about them.  */
    enum yytokentype {
      NUMBER = 258,
-     MUL = 259,
-     ADD = 260,
-     SUB = 261,
-     DIV = 262,
-     ABS = 263,
-     EOL = 264
+     EOL = 259
    };
 #endif
 
@@ -61,14 +56,14 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 12 "wcsbss.y"
+#line 11 "wcsbss.y"
 
     struct IExpressionAST *d;
 	double num;
 
 
 /* Line 2058 of yacc.c  */
-#line 72 "wcsbss.tab.h"
+#line 67 "wcsbss.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

@@ -1,6 +1,5 @@
 #include <iostream>
 #include "Value.h"
-#include "token.h"
 #include "wcsbss.tab.h"
 
 using namespace std;

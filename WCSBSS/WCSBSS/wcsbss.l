@@ -6,11 +6,25 @@
 
 %%
 
-"+" { return ADD; }
-"-" { return SUB; }
-"*" { return MUL; }
-"/" { return DIV; }
-"|" { return ABS; }
+"+" |
+"-" |
+"*" |
+"/" |
+"(" |
+")" |
+"=" |
+"," |
+";" |
+"|" |
+"{" |
+"}"  { return yytext[0]; }
+
+"if"    { return IF; }
+"then"  { return THEN; }
+"else"  { return ELSE; }
+"while" { return WHILE; }
+"let"   { return LET; }
+
 [0-9]+ { yylval.num = atof(yytext); return NUMBER; }
 \n  { return EOL; }
 [ \t] { }

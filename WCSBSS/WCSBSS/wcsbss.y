@@ -1,5 +1,4 @@
 %{
-  #include "stdio.h"
   #include "NodeAST.h"
   #include "Value.h"
   #include "Parser_private.h"
@@ -15,10 +14,13 @@
 }
 
 %token <num> NUMBER
-%token MUL ADD SUB DIV ABS
 %token EOL
 
 %type <d> exp factor calclist term
+
+%right '='
+%left '+' '-'
+%left '*' '/'
 
 %%
 
@@ -27,19 +29,19 @@ calclist : /* nothing */
 ;
 
 exp : factor
-      | exp ADD factor { 
+      | exp '+' factor { 
 			EmplaceAST<BinaryExpressionAST>($$, BinaryOperator::Add, Take($1), Take($3));
 		  }
-      | exp SUB factor { 
+      | exp '-' factor { 
 			EmplaceAST<BinaryExpressionAST>($$, BinaryOperator::Substract, Take($1), Take($3));
 		  }
 ;
 
 factor : term
-      | factor MUL term { 
+      | factor '*' term { 
 				EmplaceAST<BinaryExpressionAST>($$, BinaryOperator::Multiply, Take($1), Take($3));
 			  }
-      | factor DIV term {
+      | factor '/' term {
 				EmplaceAST<BinaryExpressionAST>($$, BinaryOperator::Divide, Take($1), Take($3));
 			  }
 ;

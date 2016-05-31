@@ -119,22 +119,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="calc.tab.h" />
     <ClInclude Include="NodeAST.h" />
     <ClInclude Include="Parser_private.h" />
     <ClInclude Include="string_view.h" />
-    <ClInclude Include="token.h" />
-    <ClInclude Include="TokenStream.h" />
     <ClInclude Include="Value.h" />
+    <ClInclude Include="wcsbss.tab.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="calc.flex.cpp" />
-    <ClCompile Include="calc.tab.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NodeAST.cpp" />
-    <ClCompile Include="Token.cpp" />
-    <ClCompile Include="TokenStream.cpp" />
     <ClCompile Include="Value.cpp" />
+    <ClCompile Include="wcsbss.flex.cpp" />
+    <ClCompile Include="wcsbss.tab.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Flex Include="wcsbss.l" />

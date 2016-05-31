@@ -15,16 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="token.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TokenStream.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="string_view.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="calc.tab.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NodeAST.h">
@@ -36,27 +27,24 @@
     <ClInclude Include="Parser_private.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="wcsbss.tab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TokenStream.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Token.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="calc.flex.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="calc.tab.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="NodeAST.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Value.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="wcsbss.flex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="wcsbss.tab.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

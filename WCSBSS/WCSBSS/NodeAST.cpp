@@ -16,6 +16,7 @@ SValue BinaryExpressionAST::Evaluate() const
 		result = a.value + b.value;
 		break;
 	case BinaryOperator::Substract:
+		std::cout << a.value << " - " << b.value << std::endl;
 		result = a.value - b.value;
 		break;
 	case BinaryOperator::Multiply:
@@ -51,4 +52,27 @@ SValue CPrintAST::Evaluate() const
 	SValue value = m_expr->Evaluate();
 	std::cout << value.value << std::endl;
 	return value;
+}
+
+CIfAST::CIfAST(IExpressionASTUniquePtr && condition,
+	StatementList && thenPart,
+	StatementList && elsePart)
+	:m_condition(std::move(condition)),
+	m_thenPart(std::move(thenPart)),
+	m_elsePart(std::move(elsePart))
+{
+}
+
+SValue CIfAST::Evaluate() const
+{
+	SValue cond = m_condition->Evaluate();
+	if (cond.value)
+	{
+
+	}
+	else
+	{
+
+	}
+	return cond;
 }

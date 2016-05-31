@@ -3,10 +3,14 @@
 #include <memory>
 #include <climits>
 #include <iostream>
+#include <vector>
 
 class IExpressionAST;
 
 using IExpressionASTUniquePtr = std::unique_ptr<IExpressionAST>;
+using IStatementASTUniquePtr = std::unique_ptr<IStatementAST>;
+using ExpressionList = std::vector<IExpressionASTUniquePtr>;
+using StatementList = std::vector<IStatementASTUniquePtr>;
 
 class IExpressionAST
 {
@@ -14,6 +18,14 @@ public:
 	virtual SValue Evaluate() const = 0;
 
 	virtual ~IExpressionAST() = default;
+};
+
+class IStatementAST
+{
+public:
+	virtual void Evaluate() = 0;
+	
+	virtual ~IStatementAST() = default;
 };
 
 enum class BinaryOperator
@@ -63,4 +75,20 @@ public:
 
 private:
 	IExpressionAST * m_expr;
+};
+
+class CIfAST : public IExpressionAST
+{
+public:
+	CIfAST(IExpressionASTUniquePtr && condition, 
+		StatementList && thenPart = StatementList(), 
+		StatementList && elsePart = StatementList());
+
+	virtual SValue Evaluate() const override;
+
+private:
+	IExpressionASTUniquePtr m_condition;
+
+	StatementList m_thenPart;
+	StatementList m_elsePart;
 };
