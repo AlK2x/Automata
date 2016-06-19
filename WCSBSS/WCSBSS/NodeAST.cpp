@@ -54,6 +54,21 @@ SValue CPrintAST::Evaluate() const
 	return value;
 }
 
+CVariableRefAST::CVariableRefAST(unsigned nameId)
+	: m_nameId(nameId)
+{
+}
+
+SValue CVariableRefAST::Evaluate() const
+{
+	return{ (double) m_nameId };
+}
+
+unsigned CVariableRefAST::GetNameId() const
+{
+	return m_nameId;
+}
+
 CIfAST::CIfAST(IExpressionASTUniquePtr && condition,
 	StatementList && thenPart,
 	StatementList && elsePart)
@@ -75,4 +90,9 @@ SValue CIfAST::Evaluate() const
 
 	}
 	return cond;
+}
+
+CFunctionAst::CFunctionAst(unsigned identifierId, ExpressionList &&expressions)
+	:m_identifier(identifierId), m_statements(std::move(expressions))
+{
 }

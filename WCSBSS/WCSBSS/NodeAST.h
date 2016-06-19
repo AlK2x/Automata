@@ -6,11 +6,16 @@
 #include <vector>
 
 class IExpressionAST;
+class IStatementAST;
+class IDeclarationAST;
 
 using IExpressionASTUniquePtr = std::unique_ptr<IExpressionAST>;
 using IStatementASTUniquePtr = std::unique_ptr<IStatementAST>;
+using IDeclarationASTUniquePtr = std::unique_ptr<IDeclarationAST>;
+
 using ExpressionList = std::vector<IExpressionASTUniquePtr>;
 using StatementList = std::vector<IStatementASTUniquePtr>;
+using DeclrationList = std::vector<IDeclarationASTUniquePtr>;
 
 class IExpressionAST
 {
@@ -26,6 +31,12 @@ public:
 	virtual void Evaluate() = 0;
 	
 	virtual ~IStatementAST() = default;
+};
+
+class IDeclarationAST
+{
+public:
+	virtual ~IDeclarationAST() = default;
 };
 
 enum class BinaryOperator
@@ -77,6 +88,19 @@ private:
 	IExpressionAST * m_expr;
 };
 
+class CVariableRefAST : public IExpressionAST
+{
+public:
+	CVariableRefAST(unsigned nameId);
+
+	SValue Evaluate() const override;
+
+	unsigned GetNameId()const;
+
+private:
+	const unsigned m_nameId;
+};
+
 class CIfAST : public IExpressionAST
 {
 public:
@@ -91,4 +115,14 @@ private:
 
 	StatementList m_thenPart;
 	StatementList m_elsePart;
+};
+
+class CFunctionAst : public IDeclarationAST
+{
+public:
+	CFunctionAst(unsigned identifierId, ExpressionList &&expressions);
+
+private:
+	unsigned m_identifier;
+	ExpressionList m_statements;
 };

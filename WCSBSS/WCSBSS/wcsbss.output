@@ -1,0 +1,454 @@
+Terminals unused in grammar
+
+   IF
+   THEN
+   ELSE
+   WHILE
+   LET
+   PRINT
+   EOL
+   '='
+
+
+State 0 conflicts: 3 shift/reduce
+
+
+Grammar
+
+    0 $accept: declaration_list $end
+
+    1 declaration_list: /* empty */
+    2                 | declaration ';'
+    3                 | declaration_list declaration ';'
+
+    4 declaration: exp
+    5            | function_declaration
+
+    6 function_declaration: FUNCTION '(' ')' '{' expression_list '}'
+
+    7 expression_list: /* empty */
+    8                | exp ';'
+    9                | expression_list ';' exp
+
+   10 exp: exp '+' exp
+   11    | exp '-' exp
+   12    | exp '*' exp
+   13    | exp '/' exp
+   14    | NUMBER
+   15    | ID
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'(' (40) 6
+')' (41) 6
+'*' (42) 12
+'+' (43) 10
+'-' (45) 11
+'/' (47) 13
+';' (59) 2 3 8 9
+'=' (61)
+'{' (123) 6
+'}' (125) 6
+error (256)
+NUMBER (258) 14
+ID (259) 15
+IF (260)
+THEN (261)
+ELSE (262)
+WHILE (263)
+LET (264)
+FUNCTION (265) 6
+PRINT (266)
+EOL (267)
+
+
+Nonterminals, with rules where they appear
+
+$accept (23)
+    on left: 0
+declaration_list (24)
+    on left: 1 2 3, on right: 0 3
+declaration (25)
+    on left: 4 5, on right: 2 3
+function_declaration (26)
+    on left: 6, on right: 5
+expression_list (27)
+    on left: 7 8 9, on right: 6 9
+exp (28)
+    on left: 10 11 12 13 14 15, on right: 4 8 9 10 11 12 13
+
+
+State 0
+
+    0 $accept: . declaration_list $end
+    1 declaration_list: .  [$end, NUMBER, ID, FUNCTION]
+    2                 | . declaration ';'
+    3                 | . declaration_list declaration ';'
+    4 declaration: . exp
+    5            | . function_declaration
+    6 function_declaration: . FUNCTION '(' ')' '{' expression_list '}'
+   10 exp: . exp '+' exp
+   11    | . exp '-' exp
+   12    | . exp '*' exp
+   13    | . exp '/' exp
+   14    | . NUMBER
+   15    | . ID
+
+    NUMBER    shift, and go to state 1
+    ID        shift, and go to state 2
+    FUNCTION  shift, and go to state 3
+
+    NUMBER    [reduce using rule 1 (declaration_list)]
+    ID        [reduce using rule 1 (declaration_list)]
+    FUNCTION  [reduce using rule 1 (declaration_list)]
+    $default  reduce using rule 1 (declaration_list)
+
+    declaration_list      go to state 4
+    declaration           go to state 5
+    function_declaration  go to state 6
+    exp                   go to state 7
+
+
+State 1
+
+   14 exp: NUMBER .
+
+    $default  reduce using rule 14 (exp)
+
+
+State 2
+
+   15 exp: ID .
+
+    $default  reduce using rule 15 (exp)
+
+
+State 3
+
+    6 function_declaration: FUNCTION . '(' ')' '{' expression_list '}'
+
+    '('  shift, and go to state 8
+
+
+State 4
+
+    0 $accept: declaration_list . $end
+    3 declaration_list: declaration_list . declaration ';'
+    4 declaration: . exp
+    5            | . function_declaration
+    6 function_declaration: . FUNCTION '(' ')' '{' expression_list '}'
+   10 exp: . exp '+' exp
+   11    | . exp '-' exp
+   12    | . exp '*' exp
+   13    | . exp '/' exp
+   14    | . NUMBER
+   15    | . ID
+
+    $end      shift, and go to state 9
+    NUMBER    shift, and go to state 1
+    ID        shift, and go to state 2
+    FUNCTION  shift, and go to state 3
+
+    declaration           go to state 10
+    function_declaration  go to state 6
+    exp                   go to state 7
+
+
+State 5
+
+    2 declaration_list: declaration . ';'
+
+    ';'  shift, and go to state 11
+
+
+State 6
+
+    5 declaration: function_declaration .
+
+    $default  reduce using rule 5 (declaration)
+
+
+State 7
+
+    4 declaration: exp .  [';']
+   10 exp: exp . '+' exp
+   11    | exp . '-' exp
+   12    | exp . '*' exp
+   13    | exp . '/' exp
+
+    '+'  shift, and go to state 12
+    '-'  shift, and go to state 13
+    '*'  shift, and go to state 14
+    '/'  shift, and go to state 15
+
+    $default  reduce using rule 4 (declaration)
+
+
+State 8
+
+    6 function_declaration: FUNCTION '(' . ')' '{' expression_list '}'
+
+    ')'  shift, and go to state 16
+
+
+State 9
+
+    0 $accept: declaration_list $end .
+
+    $default  accept
+
+
+State 10
+
+    3 declaration_list: declaration_list declaration . ';'
+
+    ';'  shift, and go to state 17
+
+
+State 11
+
+    2 declaration_list: declaration ';' .
+
+    $default  reduce using rule 2 (declaration_list)
+
+
+State 12
+
+   10 exp: . exp '+' exp
+   10    | exp '+' . exp
+   11    | . exp '-' exp
+   12    | . exp '*' exp
+   13    | . exp '/' exp
+   14    | . NUMBER
+   15    | . ID
+
+    NUMBER  shift, and go to state 1
+    ID      shift, and go to state 2
+
+    exp  go to state 18
+
+
+State 13
+
+   10 exp: . exp '+' exp
+   11    | . exp '-' exp
+   11    | exp '-' . exp
+   12    | . exp '*' exp
+   13    | . exp '/' exp
+   14    | . NUMBER
+   15    | . ID
+
+    NUMBER  shift, and go to state 1
+    ID      shift, and go to state 2
+
+    exp  go to state 19
+
+
+State 14
+
+   10 exp: . exp '+' exp
+   11    | . exp '-' exp
+   12    | . exp '*' exp
+   12    | exp '*' . exp
+   13    | . exp '/' exp
+   14    | . NUMBER
+   15    | . ID
+
+    NUMBER  shift, and go to state 1
+    ID      shift, and go to state 2
+
+    exp  go to state 20
+
+
+State 15
+
+   10 exp: . exp '+' exp
+   11    | . exp '-' exp
+   12    | . exp '*' exp
+   13    | . exp '/' exp
+   13    | exp '/' . exp
+   14    | . NUMBER
+   15    | . ID
+
+    NUMBER  shift, and go to state 1
+    ID      shift, and go to state 2
+
+    exp  go to state 21
+
+
+State 16
+
+    6 function_declaration: FUNCTION '(' ')' . '{' expression_list '}'
+
+    '{'  shift, and go to state 22
+
+
+State 17
+
+    3 declaration_list: declaration_list declaration ';' .
+
+    $default  reduce using rule 3 (declaration_list)
+
+
+State 18
+
+   10 exp: exp . '+' exp
+   10    | exp '+' exp .  ['+', '-', ';', '}']
+   11    | exp . '-' exp
+   12    | exp . '*' exp
+   13    | exp . '/' exp
+
+    '*'  shift, and go to state 14
+    '/'  shift, and go to state 15
+
+    $default  reduce using rule 10 (exp)
+
+    Conflict between rule 10 and token '+' resolved as reduce (%left '+').
+    Conflict between rule 10 and token '-' resolved as reduce (%left '-').
+    Conflict between rule 10 and token '*' resolved as shift ('+' < '*').
+    Conflict between rule 10 and token '/' resolved as shift ('+' < '/').
+
+
+State 19
+
+   10 exp: exp . '+' exp
+   11    | exp . '-' exp
+   11    | exp '-' exp .  ['+', '-', ';', '}']
+   12    | exp . '*' exp
+   13    | exp . '/' exp
+
+    '*'  shift, and go to state 14
+    '/'  shift, and go to state 15
+
+    $default  reduce using rule 11 (exp)
+
+    Conflict between rule 11 and token '+' resolved as reduce (%left '+').
+    Conflict between rule 11 and token '-' resolved as reduce (%left '-').
+    Conflict between rule 11 and token '*' resolved as shift ('-' < '*').
+    Conflict between rule 11 and token '/' resolved as shift ('-' < '/').
+
+
+State 20
+
+   10 exp: exp . '+' exp
+   11    | exp . '-' exp
+   12    | exp . '*' exp
+   12    | exp '*' exp .  ['+', '-', '*', '/', ';', '}']
+   13    | exp . '/' exp
+
+    $default  reduce using rule 12 (exp)
+
+    Conflict between rule 12 and token '+' resolved as reduce ('+' < '*').
+    Conflict between rule 12 and token '-' resolved as reduce ('-' < '*').
+    Conflict between rule 12 and token '*' resolved as reduce (%left '*').
+    Conflict between rule 12 and token '/' resolved as reduce (%left '/').
+
+
+State 21
+
+   10 exp: exp . '+' exp
+   11    | exp . '-' exp
+   12    | exp . '*' exp
+   13    | exp . '/' exp
+   13    | exp '/' exp .  ['+', '-', '*', '/', ';', '}']
+
+    $default  reduce using rule 13 (exp)
+
+    Conflict between rule 13 and token '+' resolved as reduce ('+' < '/').
+    Conflict between rule 13 and token '-' resolved as reduce ('-' < '/').
+    Conflict between rule 13 and token '*' resolved as reduce (%left '*').
+    Conflict between rule 13 and token '/' resolved as reduce (%left '/').
+
+
+State 22
+
+    6 function_declaration: FUNCTION '(' ')' '{' . expression_list '}'
+    7 expression_list: .  [';', '}']
+    8                | . exp ';'
+    9                | . expression_list ';' exp
+   10 exp: . exp '+' exp
+   11    | . exp '-' exp
+   12    | . exp '*' exp
+   13    | . exp '/' exp
+   14    | . NUMBER
+   15    | . ID
+
+    NUMBER  shift, and go to state 1
+    ID      shift, and go to state 2
+
+    $default  reduce using rule 7 (expression_list)
+
+    expression_list  go to state 23
+    exp              go to state 24
+
+
+State 23
+
+    6 function_declaration: FUNCTION '(' ')' '{' expression_list . '}'
+    9 expression_list: expression_list . ';' exp
+
+    ';'  shift, and go to state 25
+    '}'  shift, and go to state 26
+
+
+State 24
+
+    8 expression_list: exp . ';'
+   10 exp: exp . '+' exp
+   11    | exp . '-' exp
+   12    | exp . '*' exp
+   13    | exp . '/' exp
+
+    '+'  shift, and go to state 12
+    '-'  shift, and go to state 13
+    '*'  shift, and go to state 14
+    '/'  shift, and go to state 15
+    ';'  shift, and go to state 27
+
+
+State 25
+
+    9 expression_list: expression_list ';' . exp
+   10 exp: . exp '+' exp
+   11    | . exp '-' exp
+   12    | . exp '*' exp
+   13    | . exp '/' exp
+   14    | . NUMBER
+   15    | . ID
+
+    NUMBER  shift, and go to state 1
+    ID      shift, and go to state 2
+
+    exp  go to state 28
+
+
+State 26
+
+    6 function_declaration: FUNCTION '(' ')' '{' expression_list '}' .
+
+    $default  reduce using rule 6 (function_declaration)
+
+
+State 27
+
+    8 expression_list: exp ';' .
+
+    $default  reduce using rule 8 (expression_list)
+
+
+State 28
+
+    9 expression_list: expression_list ';' exp .  [';', '}']
+   10 exp: exp . '+' exp
+   11    | exp . '-' exp
+   12    | exp . '*' exp
+   13    | exp . '/' exp
+
+    '+'  shift, and go to state 12
+    '-'  shift, and go to state 13
+    '*'  shift, and go to state 14
+    '/'  shift, and go to state 15
+
+    $default  reduce using rule 9 (expression_list)

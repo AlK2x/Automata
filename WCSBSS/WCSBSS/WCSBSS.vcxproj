@@ -120,23 +120,33 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="NodeAST.h" />
+    <ClInclude Include="ParserContext.h" />
     <ClInclude Include="Parser_private.h" />
+    <ClInclude Include="StringPool.h" />
     <ClInclude Include="string_view.h" />
     <ClInclude Include="Value.h" />
+    <ClInclude Include="wcsbss.flex.h" />
     <ClInclude Include="wcsbss.tab.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NodeAST.cpp" />
+    <ClCompile Include="ParserContext.cpp" />
+    <ClCompile Include="StringPool.cpp" />
     <ClCompile Include="Value.cpp" />
     <ClCompile Include="wcsbss.flex.cpp" />
     <ClCompile Include="wcsbss.tab.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Flex Include="wcsbss.l" />
+    <Flex Include="wcsbss.l">
+      <HeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).flex.h</HeaderFile>
+      <Debug Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</Debug>
+    </Flex>
   </ItemGroup>
   <ItemGroup>
-    <Bison Include="wcsbss.y" />
+    <Bison Include="wcsbss.y">
+      <Report Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">all</Report>
+    </Bison>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

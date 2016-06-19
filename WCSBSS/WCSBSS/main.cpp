@@ -1,13 +1,17 @@
 #include <iostream>
 #include "Value.h"
 #include "wcsbss.tab.h"
+#include "wcsbss.flex.h"
+#include "ParserContext.h"
 
 using namespace std;
 
+//int yyparse(void * pParser);
+
 int main(int argc, char ** argv)
 {
-	SValue::create(10);
-	cout << "Oppa" << endl;
-	yyparse();
+	CParserContext p;
+	yyparse(&p);
+	system("pause");
 	return 0;
 }

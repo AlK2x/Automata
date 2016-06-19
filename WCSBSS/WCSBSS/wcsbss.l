@@ -1,8 +1,11 @@
 %option noyywrap
 %{
+  #include "ParserContext.h"
   #include "wcsbss.tab.h"
   #include <iostream>
 %}
+
+EXP	([Ee][-+]?[0-9]+)
 
 %%
 
@@ -24,10 +27,19 @@
 "else"  { return ELSE; }
 "while" { return WHILE; }
 "let"   { return LET; }
+"func"  { return FUNCTION; }
 
-[0-9]+ { yylval.num = atof(yytext); return NUMBER; }
-\n  { return EOL; }
-[ \t] { }
+"print" { return PRINT; }
+
+[0-9]+"."[0-9]*{EXP}? |
+"."?[0-9]+{EXP}? { yylvalp->num = atof(yytext); return NUMBER; }
+
+[A-Za-z][A-Za-z0-9_]*	{ 
+				yylvalp->nameId = ((CParserContext *) pParser)->GetIdentifierId(yytext);
+				return ID;
+			}
+
+[ \t\n]         /* white space */
 .   {  std::cout << "Mystery character " <<  yytext << std::endl; }
 
 %%

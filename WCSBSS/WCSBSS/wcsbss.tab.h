@@ -39,6 +39,18 @@
 #if YYDEBUG
 extern int yydebug;
 #endif
+/* "%code requires" blocks.  */
+/* Line 2058 of yacc.c  */
+#line 14 "wcsbss.y"
+
+  #include <stdio.h>
+  #include "ParserContext.h"
+
+  /* structs used in the %union declaration would go here */
+
+
+/* Line 2058 of yacc.c  */
+#line 54 "wcsbss.tab.h"
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -47,7 +59,15 @@ extern int yydebug;
       know about them.  */
    enum yytokentype {
      NUMBER = 258,
-     EOL = 259
+     ID = 259,
+     IF = 260,
+     THEN = 261,
+     ELSE = 262,
+     WHILE = 263,
+     LET = 264,
+     FUNCTION = 265,
+     PRINT = 266,
+     EOL = 267
    };
 #endif
 
@@ -56,21 +76,37 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 11 "wcsbss.y"
+#line 35 "wcsbss.y"
 
-    struct IExpressionAST *d;
+	class IExpressionAST* e;
+	class IStatementAST *s;
+	class IDeclarationAST *d;
+	struct ExpressionListContainer * el;
 	double num;
+	unsigned nameId;
 
 
 /* Line 2058 of yacc.c  */
-#line 67 "wcsbss.tab.h"
+#line 91 "wcsbss.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 #endif
 
-extern YYSTYPE yylval;
+#if ! defined YYLTYPE && ! defined YYLTYPE_IS_DECLARED
+typedef struct YYLTYPE
+{
+  int first_line;
+  int first_column;
+  int last_line;
+  int last_column;
+} YYLTYPE;
+# define yyltype YYLTYPE /* obsolescent; will be withdrawn */
+# define YYLTYPE_IS_DECLARED 1
+# define YYLTYPE_IS_TRIVIAL 1
+#endif
+
 
 #ifdef YYPARSE_PARAM
 #if defined __STDC__ || defined __cplusplus
@@ -80,10 +116,23 @@ int yyparse ();
 #endif
 #else /* ! YYPARSE_PARAM */
 #if defined __STDC__ || defined __cplusplus
-int yyparse (void);
+int yyparse (void* pParser);
 #else
 int yyparse ();
 #endif
 #endif /* ! YYPARSE_PARAM */
+/* "%code provides" blocks.  */
+/* Line 2058 of yacc.c  */
+#line 26 "wcsbss.y"
+
+   #define YY_DECL \
+       int yylex(YYSTYPE* yylvalp, YYLTYPE* yyllocp, void* pParser)
+   YY_DECL;
+
+   int yyerror(YYLTYPE* yyllocp, void* pParser, const char* message);
+
+
+/* Line 2058 of yacc.c  */
+#line 137 "wcsbss.tab.h"
 
 #endif /* !YY_YY_WCSBSS_TAB_H_INCLUDED  */
