@@ -12,6 +12,13 @@ int main(int argc, char ** argv)
 {
 	CParserContext p;
 	yyparse(&p);
+	auto program = p.TakeAwayProgram();
+
+	for (const auto & pDecl : program->GetDeclarations())
+	{
+
+	}
+
 	system("pause");
 	return 0;
 }

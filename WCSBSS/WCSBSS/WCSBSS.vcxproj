@@ -69,12 +69,21 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>D:\Projects_2\llvm.cmake\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Projects_2\llvm.cmake\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>D:\Projects_2\llvm.cmake\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Projects_2\llvm.cmake\Debug\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>D:\Projects_2\llvm.cmake\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -85,6 +94,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Projects_2\llvm.cmake\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -119,6 +130,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ASTVisitor.h" />
+    <ClInclude Include="CodegenVisitor.h" />
+    <ClInclude Include="FrontendContext.h" />
     <ClInclude Include="NodeAST.h" />
     <ClInclude Include="ParserContext.h" />
     <ClInclude Include="Parser_private.h" />
@@ -129,6 +143,8 @@
     <ClInclude Include="wcsbss.tab.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CodegenVisitor.cpp" />
+    <ClCompile Include="FrontendContext.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NodeAST.cpp" />
     <ClCompile Include="ParserContext.cpp" />
@@ -140,12 +156,13 @@
   <ItemGroup>
     <Flex Include="wcsbss.l">
       <HeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).flex.h</HeaderFile>
-      <Debug Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</Debug>
+      <Debug Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</Debug>
     </Flex>
   </ItemGroup>
   <ItemGroup>
     <Bison Include="wcsbss.y">
       <Report Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">all</Report>
+      <ReportFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">bison_report.log;%(ReportFile)</ReportFile>
     </Bison>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

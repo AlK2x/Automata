@@ -3,20 +3,13 @@
 
 
 CParserContext::CParserContext()
+	:m_program(new CProgramAST)
 {
-}
-
-void CParserContext::Call()
-{
-	std::cout << "Call parser" << std::endl;
 }
 
 void CParserContext::AddFunction(IDeclarationASTUniquePtr function)
 {
-	if (function)
-	{
-		m_declarations.emplace_back(std::move(function));
-	}
+	m_program->AddDeclaration(std::move(function));
 }
 
 unsigned CParserContext::GetIdentifierId(char * identifier)
@@ -24,9 +17,9 @@ unsigned CParserContext::GetIdentifierId(char * identifier)
 	return m_pool.Insert(identifier);
 }
 
-const DeclrationList & CParserContext::GetDeclarations() const
+std::unique_ptr<CProgramAST> CParserContext::TakeAwayProgram()
 {
-	return m_declarations;
+	return std::move(m_program);
 }
 
 CParserContext::~CParserContext()

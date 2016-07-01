@@ -53,6 +53,14 @@ void ConcatList(TTarget *& target, TTarget *& source, TItem *& item)
 	target = pList.release();
 };
 
+// ѕеремещает указатель из одной €чейки стека в другую, обнул€€ исходной €чейки.
+template <class T>
+void MovePointer(T *& stackRecord, T *& targetRecord)
+{
+	targetRecord = stackRecord;
+	stackRecord = nullptr;
+}
+
 using ExpressionListPtr = ExpressionList*;
 using StatementListPtr = StatementList*;
 
@@ -61,6 +69,10 @@ using ExpressionPtr = IExpressionAST*;
 
 struct ExpressionListContainer {
 	ExpressionListPtr list;
+};
+
+struct StatementListContainer {
+	StatementListPtr list;
 };
 
 }

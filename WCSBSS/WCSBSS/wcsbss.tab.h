@@ -58,16 +58,18 @@ extern int yydebug;
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     NUMBER = 258,
-     ID = 259,
+     ID = 258,
+     NUMBER = 259,
      IF = 260,
      THEN = 261,
      ELSE = 262,
      WHILE = 263,
      LET = 264,
      FUNCTION = 265,
-     PRINT = 266,
-     EOL = 267
+     EQUAL = 266,
+     NOTEQUAL = 267,
+     PRINT = 268,
+     EOL = 269
    };
 #endif
 
@@ -82,12 +84,13 @@ typedef union YYSTYPE
 	class IStatementAST *s;
 	class IDeclarationAST *d;
 	struct ExpressionListContainer * el;
+	struct StatementListContainer * sl;
 	double num;
 	unsigned nameId;
 
 
 /* Line 2058 of yacc.c  */
-#line 91 "wcsbss.tab.h"
+#line 94 "wcsbss.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -133,6 +136,6 @@ int yyparse ();
 
 
 /* Line 2058 of yacc.c  */
-#line 137 "wcsbss.tab.h"
+#line 140 "wcsbss.tab.h"
 
 #endif /* !YY_YY_WCSBSS_TAB_H_INCLUDED  */

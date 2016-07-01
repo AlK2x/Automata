@@ -6,17 +6,16 @@ class CParserContext
 {
 public:
 	CParserContext();
-	void Call();
 
 	void AddFunction(IDeclarationASTUniquePtr function);
 	unsigned GetIdentifierId(char * identifier);
 
-	const DeclrationList & GetDeclarations() const;
+	std::unique_ptr<CProgramAST> TakeAwayProgram();
 
 	~CParserContext();
 
 private:
-	DeclrationList m_declarations;
+	std::unique_ptr<CProgramAST> m_program;
 	CStringPool m_pool;
 };
 
