@@ -17,6 +17,16 @@ unsigned CParserContext::GetIdentifierId(char * identifier)
 	return m_pool.Insert(identifier);
 }
 
+std::string CParserContext::GetString(unsigned stringId) const
+{
+	return m_pool.GetString(stringId);
+}
+
+void CParserContext::PrintError(const std::string &message)const
+{
+	std::cout << "  Error: " << message << std::endl;
+}
+
 std::unique_ptr<CProgramAST> CParserContext::TakeAwayProgram()
 {
 	return std::move(m_program);
@@ -24,5 +34,6 @@ std::unique_ptr<CProgramAST> CParserContext::TakeAwayProgram()
 
 CParserContext::~CParserContext()
 {
+	std::cout << "~CParserContext" << std::endl;
 }
 

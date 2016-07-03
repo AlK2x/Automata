@@ -48,6 +48,9 @@
     <ClInclude Include="FrontendContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CompilerBackend.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -75,6 +78,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FrontendContext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CompilerBackend.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -514,10 +514,10 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    68,    68,    69,    70,    71,    72,    75,    80,    86,
-      87,    91,    97,   101,   104,   108,   112,   118,   119,   123,
-     129,   132,   135,   138,   141,   144,   147,   150,   153,   156,
-     159,   162,   166,   170,   174
+       0,    68,    68,    69,    70,    71,    72,    75,    80,   100,
+     101,   118,   124,   128,   131,   135,   139,   145,   146,   152,
+     158,   161,   164,   167,   170,   173,   176,   179,   182,   185,
+     188,   191,   195,   199,   203
 };
 #endif
 
@@ -1649,22 +1649,49 @@ yyreduce:
 #line 80 "wcsbss.y"
     {
 				std::cout << "Add function" << std::endl;
-				EmplaceAST<CFunctionAST>((yyval.d), (yyvsp[(2) - (7)].nameId), BaseType::Double, ParameterDeclList(), std::move(*((yyvsp[(6) - (7)].sl)->list)));
+				auto params = Make<ParameterDeclList>().release();
+				auto body = (yyvsp[(6) - (7)].sl)->list;
+				for (const IStatementASTUniquePtr & pAst : (*body))
+				{
+					if (!pAst)
+					{
+						std::cout << "CFunctionCodeGenerator::Codegen No body" << std::endl;
+					}
+					else
+					{
+						pAst->Test();
+					}
+		
+				}
+				EmplaceAST<CFunctionAST>((yyval.d), (yyvsp[(2) - (7)].nameId), BaseType::Double, std::move(*params), std::move(*body));
 			}
     break;
 
   case 10:
 /* Line 1792 of yacc.c  */
-#line 87 "wcsbss.y"
+#line 101 "wcsbss.y"
     {
 				std::cout << "statement ';'" << std::endl;
+				(yyval.sl) = new StatementListContainer();
+				auto b = (yyvsp[(1) - (2)].s);
 				CreateList((yyval.sl)->list, (yyvsp[(1) - (2)].s));
+				for (const IStatementASTUniquePtr & pAst : *((yyval.sl)->list))
+				{
+					if (!pAst)
+					{
+						std::cout << "CFunctionCodeGenerator::Codegen No body" << std::endl;
+					}
+					else
+					{
+						pAst->Test();
+					}
+				}
 			}
     break;
 
   case 11:
 /* Line 1792 of yacc.c  */
-#line 91 "wcsbss.y"
+#line 118 "wcsbss.y"
     {
 				std::cout << "statement_list ';' statement" << std::endl;
 				ConcatList((yyval.sl)->list, (yyvsp[(1) - (3)].sl)->list, (yyvsp[(2) - (3)].s));
@@ -1673,7 +1700,7 @@ yyreduce:
 
   case 12:
 /* Line 1792 of yacc.c  */
-#line 97 "wcsbss.y"
+#line 124 "wcsbss.y"
     {
 				EmplaceAST<CAssignmentAST>((yyval.s), Take((yyvsp[(3) - (3)].e)), (yyvsp[(1) - (3)].nameId));
 				std::cout << "ID: " << (yyvsp[(1) - (3)].nameId) << " '=' exp" << std::endl;
@@ -1682,7 +1709,7 @@ yyreduce:
 
   case 13:
 /* Line 1792 of yacc.c  */
-#line 101 "wcsbss.y"
+#line 128 "wcsbss.y"
     {
 				EmplaceAST<CPrintAST>((yyval.s), Take((yyvsp[(2) - (2)].e)));
 			}
@@ -1690,7 +1717,7 @@ yyreduce:
 
   case 14:
 /* Line 1792 of yacc.c  */
-#line 104 "wcsbss.y"
+#line 131 "wcsbss.y"
     {
 				std::cout << "IF '(' exp ')' '{' statement_list '}'" << std::endl;
 				EmplaceAST<CIfAST>((yyval.s), Take((yyvsp[(3) - (7)].e)), std::move(*((yyvsp[(6) - (7)].sl)->list)));
@@ -1699,7 +1726,7 @@ yyreduce:
 
   case 15:
 /* Line 1792 of yacc.c  */
-#line 108 "wcsbss.y"
+#line 135 "wcsbss.y"
     {
 				std::cout << "IF '(' exp ')' '{' statement_list '}' ELSE '{' statement_list '}'" << std::endl;
 				EmplaceAST<CIfAST>((yyval.s), Take((yyvsp[(3) - (11)].e)), std::move(*((yyvsp[(6) - (11)].sl)->list)), std::move(*((yyvsp[(10) - (11)].sl)->list)));
@@ -1708,7 +1735,7 @@ yyreduce:
 
   case 16:
 /* Line 1792 of yacc.c  */
-#line 112 "wcsbss.y"
+#line 139 "wcsbss.y"
     {
 				std::cout << "'(' exp ')' '{' statement_list '}'" << std::endl;
 				EmplaceAST<CWhileAST>((yyval.s), Take((yyvsp[(3) - (7)].e)), std::move(*((yyvsp[(6) - (7)].sl)->list)));
@@ -1717,16 +1744,18 @@ yyreduce:
 
   case 18:
 /* Line 1792 of yacc.c  */
-#line 119 "wcsbss.y"
+#line 146 "wcsbss.y"
     {
 				std::cout << "exp" << std::endl;
+				(yyval.el) = new ExpressionListContainer();
+				auto b = (yyvsp[(1) - (2)].e);
 				CreateList((yyval.el)->list, (yyvsp[(1) - (2)].e));
 			}
     break;
 
   case 19:
 /* Line 1792 of yacc.c  */
-#line 123 "wcsbss.y"
+#line 152 "wcsbss.y"
     {
 				std::cout << "expression_list EOL exp" << std::endl;
 				ConcatList((yyval.el)->list, (yyvsp[(1) - (3)].el)->list, (yyvsp[(2) - (3)].e));
@@ -1735,7 +1764,7 @@ yyreduce:
 
   case 20:
 /* Line 1792 of yacc.c  */
-#line 129 "wcsbss.y"
+#line 158 "wcsbss.y"
     {
 				MovePointer((yyvsp[(2) - (3)].e), (yyval.e));
 			}
@@ -1743,7 +1772,7 @@ yyreduce:
 
   case 21:
 /* Line 1792 of yacc.c  */
-#line 132 "wcsbss.y"
+#line 161 "wcsbss.y"
     { 
 				EmplaceAST<CBinaryExpressionAST>((yyval.e), BinaryOperation::Add, Take((yyvsp[(1) - (3)].e)), Take((yyvsp[(3) - (3)].e)));
 			}
@@ -1751,7 +1780,7 @@ yyreduce:
 
   case 22:
 /* Line 1792 of yacc.c  */
-#line 135 "wcsbss.y"
+#line 164 "wcsbss.y"
     {
 				EmplaceAST<CBinaryExpressionAST>((yyval.e), BinaryOperation::Substract, Take((yyvsp[(1) - (3)].e)), Take((yyvsp[(3) - (3)].e)));
 			}
@@ -1759,7 +1788,7 @@ yyreduce:
 
   case 23:
 /* Line 1792 of yacc.c  */
-#line 138 "wcsbss.y"
+#line 167 "wcsbss.y"
     {
 				EmplaceAST<CBinaryExpressionAST>((yyval.e), BinaryOperation::Multiply, Take((yyvsp[(1) - (3)].e)), Take((yyvsp[(3) - (3)].e)));
 			}
@@ -1767,7 +1796,7 @@ yyreduce:
 
   case 24:
 /* Line 1792 of yacc.c  */
-#line 141 "wcsbss.y"
+#line 170 "wcsbss.y"
     {
 				EmplaceAST<CBinaryExpressionAST>((yyval.e), BinaryOperation::Divide, Take((yyvsp[(1) - (3)].e)), Take((yyvsp[(3) - (3)].e)));
 			}
@@ -1775,7 +1804,7 @@ yyreduce:
 
   case 25:
 /* Line 1792 of yacc.c  */
-#line 144 "wcsbss.y"
+#line 173 "wcsbss.y"
     {
 				EmplaceAST<CBinaryExpressionAST>((yyval.e), BinaryOperation::Less, Take((yyvsp[(1) - (3)].e)), Take((yyvsp[(3) - (3)].e)));
 			}
@@ -1783,7 +1812,7 @@ yyreduce:
 
   case 26:
 /* Line 1792 of yacc.c  */
-#line 147 "wcsbss.y"
+#line 176 "wcsbss.y"
     {
 				EmplaceAST<CBinaryExpressionAST>((yyval.e), BinaryOperation::Equal, Take((yyvsp[(1) - (3)].e)), Take((yyvsp[(3) - (3)].e)));
 			}
@@ -1791,7 +1820,7 @@ yyreduce:
 
   case 27:
 /* Line 1792 of yacc.c  */
-#line 150 "wcsbss.y"
+#line 179 "wcsbss.y"
     {
 				EmplaceAST<CBinaryExpressionAST>((yyval.e), BinaryOperation::NotEqual, Take((yyvsp[(1) - (3)].e)), Take((yyvsp[(3) - (3)].e)));
 			}
@@ -1799,7 +1828,7 @@ yyreduce:
 
   case 28:
 /* Line 1792 of yacc.c  */
-#line 153 "wcsbss.y"
+#line 182 "wcsbss.y"
     {
 				EmplaceAST<CUnaryExpressionAST>((yyval.e), UnaryOperator::Minus, Take((yyvsp[(2) - (2)].e)));
 			}
@@ -1807,7 +1836,7 @@ yyreduce:
 
   case 29:
 /* Line 1792 of yacc.c  */
-#line 156 "wcsbss.y"
+#line 185 "wcsbss.y"
     {
 				EmplaceAST<CUnaryExpressionAST>((yyval.e), UnaryOperator::Plus, Take((yyvsp[(2) - (2)].e)));
 			}
@@ -1815,7 +1844,7 @@ yyreduce:
 
   case 30:
 /* Line 1792 of yacc.c  */
-#line 159 "wcsbss.y"
+#line 188 "wcsbss.y"
     {
 				EmplaceAST<CUnaryExpressionAST>((yyval.e), UnaryOperator::Not, Take((yyvsp[(2) - (2)].e)));
 			}
@@ -1823,7 +1852,7 @@ yyreduce:
 
   case 31:
 /* Line 1792 of yacc.c  */
-#line 162 "wcsbss.y"
+#line 191 "wcsbss.y"
     {
 				std::cout << "ID '(' ')'" << std::endl;
 				EmplaceAST<CCallAST>((yyval.e), (yyvsp[(1) - (3)].nameId), ExpressionList());
@@ -1832,7 +1861,7 @@ yyreduce:
 
   case 32:
 /* Line 1792 of yacc.c  */
-#line 166 "wcsbss.y"
+#line 195 "wcsbss.y"
     {
 				std::cout << "ID '(' expression_list ')'" << std::endl;
 				EmplaceAST<CCallAST>((yyval.e), (yyvsp[(1) - (4)].nameId), ExpressionList());
@@ -1841,7 +1870,7 @@ yyreduce:
 
   case 33:
 /* Line 1792 of yacc.c  */
-#line 170 "wcsbss.y"
+#line 199 "wcsbss.y"
     {
 		std::cout << "NUMBER" << std::endl;
 				EmplaceAST<CLiteralAST>((yyval.e), (yyvsp[(1) - (1)].num));
@@ -1850,7 +1879,7 @@ yyreduce:
 
   case 34:
 /* Line 1792 of yacc.c  */
-#line 174 "wcsbss.y"
+#line 203 "wcsbss.y"
     {
 				std::cout << "ID" << std::endl;
 				EmplaceAST<CVariableRefAST>((yyval.e), (yyvsp[(1) - (1)].nameId));
@@ -1859,7 +1888,7 @@ yyreduce:
 
 
 /* Line 1792 of yacc.c  */
-#line 1863 "wcsbss.tab.cpp"
+#line 1892 "wcsbss.tab.cpp"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2098,7 +2127,7 @@ yyreturn:
 
 
 /* Line 2055 of yacc.c  */
-#line 180 "wcsbss.y"
+#line 209 "wcsbss.y"
 
 
 int yyerror (YYLTYPE* yyllocp, void* pParser, const char* message) {

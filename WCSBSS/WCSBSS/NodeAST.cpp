@@ -72,6 +72,7 @@ const CLiteralAST::Value &CLiteralAST::GetValue() const
 
 void CPrintAST::Accept(IStatementVisitor & visitor)
 {
+	std::cout << "CPrintAST::Accept" << std::endl;
 	visitor.Visit(*this);
 }
 
@@ -125,7 +126,7 @@ const StatementList & CIfAST::GetElseBody() const
 }
 
 
-CFunctionAST::CFunctionAST(unsigned nameId, BaseType returnType, ParameterDeclList &&parameters, StatementList && body)
+CFunctionAST::CFunctionAST(unsigned nameId, BaseType returnType, ParameterDeclList && parameters, StatementList && body)
 	: m_nameId(nameId)
 	, m_parameters(std::move(parameters))
 	, m_body(std::move(body))
@@ -145,6 +146,18 @@ const ParameterDeclList &CFunctionAST::GetParameters() const
 
 const StatementList &CFunctionAST::GetBody() const
 {
+	for (const IStatementASTUniquePtr & pAst : m_body)
+	{
+		if (!pAst)
+		{
+			std::cout << "CFunctionCodeGenerator::Codegen No body" << std::endl;
+		}
+		else
+		{
+			pAst->Test();
+		}
+		
+	}
 	return m_body;
 }
 
@@ -229,6 +242,7 @@ const DeclarationList & CProgramAST::GetDeclarations() const
 {
 	return m_declarations;
 }
+	
 
 CCallAST::CCallAST(unsigned nameId, ExpressionList && arguments)
 	:m_nameId(nameId), m_arguments(std::move(arguments))

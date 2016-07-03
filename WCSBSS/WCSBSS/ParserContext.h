@@ -10,6 +10,9 @@ public:
 	void AddFunction(IDeclarationASTUniquePtr function);
 	unsigned GetIdentifierId(char * identifier);
 
+	std::string GetString(unsigned stringId)const;
+	void PrintError(std::string const& message) const;
+
 	std::unique_ptr<CProgramAST> TakeAwayProgram();
 
 	~CParserContext();

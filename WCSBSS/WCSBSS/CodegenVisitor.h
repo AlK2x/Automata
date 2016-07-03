@@ -15,6 +15,7 @@
 #include <boost/optional.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/range/adaptor/reversed.hpp>
+#include "ParserContext.h"
 
 class CFrontendContext;
 class CCodegenContext;
@@ -67,72 +68,11 @@ private:
 	std::unordered_set<llvm::Value *> m_pointers;
 };
 
-// Цепочка областей видимостей для символов (чаще всего переменных).
-// TSymbol - один атрибут или структура с атрибутам символа.
-template <class TSymbol>
-class CScopeChain
-{
-public:
-	using Scope = std::unordered_map<unsigned, TSymbol>;
-
-	void PushScope()
-	{
-		m_scopes.push_back(Scope());
-	}
-
-	void PopScope()
-	{
-		m_scopes.pop_back();
-	}
-
-	bool HasSymbol(unsigned nameId)const
-	{
-		return GetSymbol(nameId).is_initialized();
-	}
-
-	// Возвращает значение для символа с заданным именем.
-	boost::optional<TSymbol> GetSymbol(unsigned nameId)const
-	{
-		for (const Scope &scope : boost::adaptors::reverse(m_scopes))
-		{
-			auto it = scope.find(nameId);
-			if (it != scope.end())
-			{
-				return it->second;
-			}
-		}
-		return boost::none;
-	}
-
-	// Возвращает true и устанавливает значение для символа, если он был ранее объявлен.
-	// Иначе возвращает false.
-	bool SetSymbol(unsigned nameId, const TSymbol &value)
-	{
-		for (Scope &scope : boost::adaptors::reverse(m_scopes))
-		{
-			auto it = scope.find(nameId);
-			if (it != scope.end())
-			{
-				it->second = value;
-				return true;
-			}
-		}
-		return false;
-	}
-
-	void DefineSymbol(unsigned nameId, const TSymbol &value)
-	{
-		m_scopes.back()[nameId] = value;
-	}
-
-private:
-	std::vector<Scope> m_scopes;
-};
 
 class CCodegenContext
 {
 public:
-	CCodegenContext(CFrontendContext &context);
+	CCodegenContext(CParserContext &context);
 	~CCodegenContext();
 
 	std::string GetString(unsigned stringId)const;
@@ -151,7 +91,7 @@ public:
 private:
 	void InitLibCBuiltins();
 
-	CFrontendContext &m_context;
+	CParserContext &m_context;
 	std::unique_ptr<llvm::LLVMContext> m_pLLVMContext;
 	std::unique_ptr<llvm::Module> m_pModule;
 	std::map<BuiltinFunction, llvm::Function*> m_builtinFunctions;

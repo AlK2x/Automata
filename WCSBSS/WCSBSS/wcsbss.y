@@ -79,14 +79,41 @@ declaration : function_declaration {
 
 function_declaration : FUNCTION ID '(' ')' '{' statement_list '}' {
 				std::cout << "Add function" << std::endl;
-				EmplaceAST<CFunctionAST>($$, $2, BaseType::Double, ParameterDeclList(), std::move(*($6->list)));
+				auto params = Make<ParameterDeclList>().release();
+				auto body = $6->list;
+				for (const IStatementASTUniquePtr & pAst : (*body))
+				{
+					if (!pAst)
+					{
+						std::cout << "CFunctionCodeGenerator::Codegen No body" << std::endl;
+					}
+					else
+					{
+						pAst->Test();
+					}
+		
+				}
+				EmplaceAST<CFunctionAST>($$, $2, BaseType::Double, std::move(*params), std::move(*body));
 			}
 ;
 
 statement_list : /* empty */
 		| statement ';' {
 				std::cout << "statement ';'" << std::endl;
+				$$ = new StatementListContainer();
+				auto b = $1;
 				CreateList($$->list, $1);
+				for (const IStatementASTUniquePtr & pAst : *($$->list))
+				{
+					if (!pAst)
+					{
+						std::cout << "CFunctionCodeGenerator::Codegen No body" << std::endl;
+					}
+					else
+					{
+						pAst->Test();
+					}
+				}
 			}
 		| statement_list statement ';' {
 				std::cout << "statement_list ';' statement" << std::endl;
@@ -118,6 +145,8 @@ statement : ID '=' exp {
 expression_list : /* empty */
 		| exp ';' {
 				std::cout << "exp" << std::endl;
+				$$ = new ExpressionListContainer();
+				auto b = $1;
 				CreateList($$->list, $1);
 			}
 		| expression_list exp ';' {

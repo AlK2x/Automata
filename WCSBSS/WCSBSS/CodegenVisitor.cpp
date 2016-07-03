@@ -182,7 +182,7 @@ void CManagedStrings::Manage(Value *pString)
 	m_pointers.insert(pString);
 }
 
-CCodegenContext::CCodegenContext(CFrontendContext &context)
+CCodegenContext::CCodegenContext(CParserContext &context)
 	: m_context(context)
 	, m_pLLVMContext(std::make_unique<llvm::LLVMContext>())
 	, m_pModule(std::make_unique<llvm::Module>("main module", *m_pLLVMContext))

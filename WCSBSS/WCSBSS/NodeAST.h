@@ -65,6 +65,7 @@ class IStatementAST
 {
 public:
 	virtual void Accept(IStatementVisitor & visitor) = 0;
+	virtual void Test() const { std::cout << "IStatementAST" << std::endl; };
 
 	virtual ~IStatementAST() = default;
 };
@@ -77,7 +78,7 @@ public:
 	virtual const ParameterDeclList &GetParameters()const = 0;
 	virtual const StatementList &GetBody()const = 0;
 
-	virtual ~IDeclarationAST() = default;
+	//virtual ~IDeclarationAST() = default;
 };
 
 
@@ -160,8 +161,12 @@ class CPrintAST : public IStatementAST
 public:
 	CPrintAST(IExpressionASTUniquePtr && expr);
 
-	virtual void Accept(IStatementVisitor & visitor) override;
+	void Accept(IStatementVisitor & visitor) override;
+	void Test() { std::cout << "CPrintAST:TEST" << std::endl; }
 	IExpressionAST &GetValue();
+	~CPrintAST() {
+		std::cout << "diestroy print ast" << std::endl;
+	}
 private:
 	IExpressionASTUniquePtr m_expr;
 };
@@ -207,6 +212,10 @@ public:
 	const ParameterDeclList &GetParameters()const override;
 	const StatementList &GetBody()const override;
 	BaseType GetReturnType() const override;
+
+	~CFunctionAST() {
+		std::cout << "destroy function" << std::endl;
+	}
 
 private:
 	unsigned m_nameId;
@@ -267,7 +276,11 @@ public:
 
 	const DeclarationList & GetDeclarations() const;
 
-	~CProgramAST() = default;
+	~CProgramAST()
+	{
+		std::cout << "~CPRogramAST" << std::endl;
+	}
+
 private:
 	DeclarationList m_declarations;
 };
