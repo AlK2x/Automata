@@ -311,7 +311,7 @@ extern int yylex (void);
 #undef YY_DECL
 #endif
 
-#line 53 "wcsbss.l"
+#line 65 "wcsbss.l"
 
 
 #line 318 "wcsbss.flex.h"

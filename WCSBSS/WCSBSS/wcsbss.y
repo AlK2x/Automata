@@ -6,9 +6,7 @@
   #include "wcsbss.flex.h"
   #include "ParserContext.h"
   //int yyerror(char const *);
-
   using namespace parser_private;
-
 %}
 
 %code requires {
@@ -36,24 +34,34 @@
 	class IExpressionAST* e;
 	class IStatementAST *s;
 	class IDeclarationAST *d;
+	class CParameterDeclAST * p;
 	struct ExpressionListContainer * el;
 	struct StatementListContainer * sl;
+	struct ParameterDeclListContainer * pl;
 	double num;
 	unsigned nameId;
+	bool b;
+	char * str;
 }
 
 %token <nameId> ID
 %token <num> NUMBER
+%token <b> BOOLEAN
+%token <str> STRING
 %token IF THEN ELSE WHILE LET FUNCTION
 %token EQUAL NOTEQUAL
+%token NUMBER_TYPE STRING_TYPE BOOLEAN_TYPE
 %token PRINT
 %token EOL
 
+%type <pl> parameter_declaration_list
 %type <e> exp
+%type <p> parameter_declaration
 %type <el> expression_list
 %type <d> declaration function_declaration
 %type <s> statement
 %type <sl> statement_list
+%type <nameId> type_specifier
 
 %right '='
 %left '!'
@@ -68,8 +76,6 @@
 declaration_list : EOL { std::cout << "TOP EOL" << std::endl; }
 	| declaration { std::cout << "TOP declaration" << std::endl; }
 	| declaration_list declaration { std::cout << "TOP declaration_list" << std::endl; }
-	| statement_list { std::cout << "TOP statement_list" << std::endl; }
-	| expression_list { std::cout << "TOP expression_list" << std::endl; }
 ;
 
 declaration : function_declaration {
@@ -77,43 +83,19 @@ declaration : function_declaration {
 		}
 ;
 
-function_declaration : FUNCTION ID '(' ')' '{' statement_list '}' {
+function_declaration : FUNCTION ID parameter_declaration_list '{' statement_list '}' {
 				std::cout << "Add function" << std::endl;
 				auto params = Make<ParameterDeclList>().release();
-				auto body = $6->list;
-				for (const IStatementASTUniquePtr & pAst : (*body))
-				{
-					if (!pAst)
-					{
-						std::cout << "CFunctionCodeGenerator::Codegen No body" << std::endl;
-					}
-					else
-					{
-						pAst->Test();
-					}
-		
-				}
+				auto body = $5->list;
 				EmplaceAST<CFunctionAST>($$, $2, BaseType::Double, std::move(*params), std::move(*body));
 			}
 ;
 
-statement_list : /* empty */
-		| statement ';' {
+statement_list :
+		 statement ';' {
 				std::cout << "statement ';'" << std::endl;
 				$$ = new StatementListContainer();
-				auto b = $1;
 				CreateList($$->list, $1);
-				for (const IStatementASTUniquePtr & pAst : *($$->list))
-				{
-					if (!pAst)
-					{
-						std::cout << "CFunctionCodeGenerator::Codegen No body" << std::endl;
-					}
-					else
-					{
-						pAst->Test();
-					}
-				}
 			}
 		| statement_list statement ';' {
 				std::cout << "statement_list ';' statement" << std::endl;
@@ -142,8 +124,8 @@ statement : ID '=' exp {
 			}
 ;
 
-expression_list : /* empty */
-		| exp ';' {
+expression_list :
+		exp ';' {
 				std::cout << "exp" << std::endl;
 				$$ = new ExpressionListContainer();
 				auto b = $1;
@@ -204,6 +186,38 @@ exp :	'(' exp ')' {
 				std::cout << "ID" << std::endl;
 				EmplaceAST<CVariableRefAST>($$, $1);
 			}
+;
+
+parameter_declaration_list
+		: '(' ')' {
+				$$ = new ParameterDeclListContainer();
+				$$->list = Make<ParameterDeclList>().release();
+			}
+		| '(' parameter_declaration ')' {
+				$$ = new ParameterDeclListContainer();
+				CreateList($$->list, $2);
+			}
+		| parameter_declaration_list ',' '(' parameter_declaration ')' {
+				ConcatList($$->list, $1->list, $4);
+			}
+;
+
+parameter_declaration
+	: type_specifier ID {
+		EmplaceAST<CParameterDeclAST>($$, $2, static_cast<BaseType>$1);
+	}
+;
+
+type_specifier
+	: NUMBER_TYPE {
+			$$ = static_cast<unsigned>(BaseType::Double);
+		}
+	| STRING_TYPE {
+			$$ = static_cast<unsigned>(BaseType::String);
+		}
+	| BOOLEAN_TYPE {
+			$$ = static_cast<unsigned>(BaseType::Boolean);
+		}
 ;
 
 %%

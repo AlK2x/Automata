@@ -35,7 +35,19 @@ EXP	([Ee][-+]?[0-9]+)
 "let"   { return LET; }
 "func"  { return FUNCTION; }
 
+"double" { return NUMBER_TYPE; }
+"string" { return STRING_TYPE; }
+"bool"   { return BOOLEAN_TYPE; }
+
+"true"  { yylvalp->b = true; return BOOLEAN; }
+"false" { yylvalp->b = false; return BOOLEAN; }
+
 "print" { return PRINT; }
+
+[a-zA-Z_]?\"(\\.|[^\\"\n])*\" {
+				yylvalp->str = yytext;
+				return STRING;
+			}
 
 [0-9]+"."[0-9]*{EXP}?	|
 "."?[0-9]+{EXP}? { 

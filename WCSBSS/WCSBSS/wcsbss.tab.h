@@ -41,7 +41,7 @@ extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
 /* Line 2058 of yacc.c  */
-#line 14 "wcsbss.y"
+#line 12 "wcsbss.y"
 
   #include <stdio.h>
   #include "ParserContext.h"
@@ -60,16 +60,21 @@ extern int yydebug;
    enum yytokentype {
      ID = 258,
      NUMBER = 259,
-     IF = 260,
-     THEN = 261,
-     ELSE = 262,
-     WHILE = 263,
-     LET = 264,
-     FUNCTION = 265,
-     EQUAL = 266,
-     NOTEQUAL = 267,
-     PRINT = 268,
-     EOL = 269
+     BOOLEAN = 260,
+     STRING = 261,
+     IF = 262,
+     THEN = 263,
+     ELSE = 264,
+     WHILE = 265,
+     LET = 266,
+     FUNCTION = 267,
+     EQUAL = 268,
+     NOTEQUAL = 269,
+     NUMBER_TYPE = 270,
+     STRING_TYPE = 271,
+     BOOLEAN_TYPE = 272,
+     PRINT = 273,
+     EOL = 274
    };
 #endif
 
@@ -78,19 +83,23 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 35 "wcsbss.y"
+#line 33 "wcsbss.y"
 
 	class IExpressionAST* e;
 	class IStatementAST *s;
 	class IDeclarationAST *d;
+	class CParameterDeclAST * p;
 	struct ExpressionListContainer * el;
 	struct StatementListContainer * sl;
+	struct ParameterDeclListContainer * pl;
 	double num;
 	unsigned nameId;
+	bool b;
+	char * str;
 
 
 /* Line 2058 of yacc.c  */
-#line 94 "wcsbss.tab.h"
+#line 103 "wcsbss.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -126,7 +135,7 @@ int yyparse ();
 #endif /* ! YYPARSE_PARAM */
 /* "%code provides" blocks.  */
 /* Line 2058 of yacc.c  */
-#line 26 "wcsbss.y"
+#line 24 "wcsbss.y"
 
    #define YY_DECL \
        int yylex(YYSTYPE* yylvalp, YYLTYPE* yyllocp, void* pParser)
@@ -136,6 +145,6 @@ int yyparse ();
 
 
 /* Line 2058 of yacc.c  */
-#line 140 "wcsbss.tab.h"
+#line 149 "wcsbss.tab.h"
 
 #endif /* !YY_YY_WCSBSS_TAB_H_INCLUDED  */
