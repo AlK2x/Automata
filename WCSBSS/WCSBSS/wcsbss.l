@@ -20,7 +20,13 @@ EXP	([Ee][-+]?[0-9]+)
 ";" |
 "|" |
 "{" |
+"<" |
+"!" |
 "}"  { return yytext[0]; }
+
+"==" { return EQUAL; }
+"!=" |
+"<>" { return NOTEQUAL; }
 
 "if"    { return IF; }
 "then"  { return THEN; }
@@ -31,8 +37,11 @@ EXP	([Ee][-+]?[0-9]+)
 
 "print" { return PRINT; }
 
-[0-9]+"."[0-9]*{EXP}? |
-"."?[0-9]+{EXP}? { yylvalp->num = atof(yytext); return NUMBER; }
+[0-9]+"."[0-9]*{EXP}?	|
+"."?[0-9]+{EXP}? { 
+				yylvalp->num = atof(yytext); 
+				return NUMBER; 
+			}
 
 [A-Za-z][A-Za-z0-9_]*	{ 
 				yylvalp->nameId = ((CParserContext *) pParser)->GetIdentifierId(yytext);
