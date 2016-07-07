@@ -146,18 +146,6 @@ const ParameterDeclList &CFunctionAST::GetParameters() const
 
 const StatementList &CFunctionAST::GetBody() const
 {
-	for (const IStatementASTUniquePtr & pAst : m_body)
-	{
-		if (!pAst)
-		{
-			std::cout << "CFunctionCodeGenerator::Codegen No body" << std::endl;
-		}
-		else
-		{
-			pAst->Test();
-		}
-		
-	}
 	return m_body;
 }
 
@@ -292,5 +280,20 @@ void CParameterDeclAST::Accept(IExpressionVisitor &visitor)
 const unsigned &CParameterDeclAST::GetName() const
 {
 	return m_nameId;
+}
+
+CReturnAST::CReturnAST(IExpressionASTUniquePtr &&value)
+	: m_value(std::move(value))
+{
+}
+
+IExpressionAST &CReturnAST::GetValue()
+{
+	return *m_value;
+}
+
+void CReturnAST::Accept(IStatementVisitor &visitor)
+{
+	visitor.Visit(*this);
 }
 

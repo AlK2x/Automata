@@ -1,3 +1,10 @@
-func main() {
-print 10;
+func foo() double {
+print "string";
+return 123;
+}
+
+func main() bool {
+foo();	
+print 23 + 234;	
+	
 }

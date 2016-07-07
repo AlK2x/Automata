@@ -41,6 +41,7 @@ EXP	([Ee][-+]?[0-9]+)
 
 "true"  { yylvalp->b = true; return BOOLEAN; }
 "false" { yylvalp->b = false; return BOOLEAN; }
+"return" { return RETURN; }
 
 "print" { return PRINT; }
 

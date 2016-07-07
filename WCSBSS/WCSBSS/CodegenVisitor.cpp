@@ -575,16 +575,16 @@ void CFunctionCodeGenerator::Visit(CAssignmentAST &ast)
 	FreeExpressionAllocs();
 }
 
-//void CFunctionCodeGenerator::Visit(CReturnAST &ast)
-//{
-//	if (auto *pValue = m_exprGen.Codegen(ast.GetValue()))
-//	{
-//		pValue = MakeValueCopy(pValue);
-//		FreeExpressionAllocs();
-//		FreeFunctionAllocs();
-//		m_builder.CreateRet(pValue);
-//	}
-//}
+void CFunctionCodeGenerator::Visit(CReturnAST &ast)
+{
+	if (auto *pValue = m_exprGen.Codegen(ast.GetValue()))
+	{
+		pValue = MakeValueCopy(pValue);
+		FreeExpressionAllocs();
+		FreeFunctionAllocs();
+		m_builder.CreateRet(pValue);
+	}
+}
 
 void CFunctionCodeGenerator::Visit(CWhileAST &ast)
 {
