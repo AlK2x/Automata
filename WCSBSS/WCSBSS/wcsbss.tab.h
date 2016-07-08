@@ -74,7 +74,8 @@ extern int yydebug;
      STRING_TYPE = 271,
      BOOLEAN_TYPE = 272,
      PRINT = 273,
-     EOL = 274
+     RETURN = 274,
+     EOL = 275
    };
 #endif
 
@@ -99,7 +100,7 @@ typedef union YYSTYPE
 
 
 /* Line 2058 of yacc.c  */
-#line 103 "wcsbss.tab.h"
+#line 104 "wcsbss.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -145,6 +146,6 @@ int yyparse ();
 
 
 /* Line 2058 of yacc.c  */
-#line 149 "wcsbss.tab.h"
+#line 150 "wcsbss.tab.h"
 
 #endif /* !YY_YY_WCSBSS_TAB_H_INCLUDED  */

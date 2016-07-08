@@ -143,9 +143,8 @@ public:
 protected:
 	void Visit(CPrintAST &ast) override;
 	void Visit(CAssignmentAST &ast) override;
-	//void Visit(CReturnAST &ast) override;
+	void Visit(CReturnAST &ast) override;
 	void Visit(CWhileAST &ast) override;
-	//void Visit(CRepeatAst &ast) override;
 	void Visit(CIfAST &ast) override;
 
 private:

@@ -84,7 +84,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>D:\Projects_2\llvm.cmake\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DebugInformationFormat>None</DebugInformationFormat>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -145,6 +145,7 @@
     <ClInclude Include="Parser_private.h" />
     <ClInclude Include="StringPool.h" />
     <ClInclude Include="string_view.h" />
+    <ClInclude Include="TypecheckVisitor.h" />
     <ClInclude Include="Value.h" />
     <ClInclude Include="wcsbss.flex.h" />
     <ClInclude Include="wcsbss.tab.h" />
@@ -157,6 +158,7 @@
     <ClCompile Include="NodeAST.cpp" />
     <ClCompile Include="ParserContext.cpp" />
     <ClCompile Include="StringPool.cpp" />
+    <ClCompile Include="TypecheckVisitor.cpp" />
     <ClCompile Include="Value.cpp" />
     <ClCompile Include="wcsbss.flex.cpp" />
     <ClCompile Include="wcsbss.tab.cpp" />

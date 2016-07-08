@@ -284,3 +284,17 @@ public:
 private:
 	DeclarationList m_declarations;
 };
+
+class CReturnAST : public IStatementAST
+{
+public:
+	CReturnAST(IExpressionASTUniquePtr && value);
+
+	IExpressionAST &GetValue();
+
+protected:
+	void Accept(IStatementVisitor & visitor) override;
+
+private:
+	IExpressionASTUniquePtr m_value;
+};

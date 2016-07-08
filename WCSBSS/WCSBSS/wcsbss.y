@@ -51,7 +51,7 @@
 %token IF THEN ELSE WHILE LET FUNCTION
 %token EQUAL NOTEQUAL
 %token NUMBER_TYPE STRING_TYPE BOOLEAN_TYPE
-%token PRINT
+%token PRINT RETURN
 %token EOL
 
 %type <pl> parameter_declaration_list
@@ -83,15 +83,19 @@ declaration : function_declaration {
 		}
 ;
 
-function_declaration : FUNCTION ID parameter_declaration_list '{' statement_list '}' {
+function_declaration : FUNCTION ID parameter_declaration_list type_specifier '{' statement_list '}' {
 				std::cout << "Add function" << std::endl;
-				auto params = Make<ParameterDeclList>().release();
-				auto body = $5->list;
-				EmplaceAST<CFunctionAST>($$, $2, BaseType::Double, std::move(*params), std::move(*body));
+				auto params = $3->list;
+				auto body = $6->list;
+				EmplaceAST<CFunctionAST>($$, $2, static_cast<BaseType>($4), std::move(*params), std::move(*body));
 			}
 ;
 
-statement_list :
+statement_list : {
+				$$ = new StatementListContainer();
+				$$->list = Make<StatementList>().release();
+			}
+		|
 		 statement ';' {
 				std::cout << "statement ';'" << std::endl;
 				$$ = new StatementListContainer();
@@ -121,6 +125,9 @@ statement : ID '=' exp {
 		| WHILE '(' exp ')' '{' statement_list '}' {
 				std::cout << "'(' exp ')' '{' statement_list '}'" << std::endl;
 				EmplaceAST<CWhileAST>($$, Take($3), std::move(*($6->list)));
+			}
+		| RETURN exp {
+				EmplaceAST<CReturnAST>($$, Take($2));
 			}
 ;
 
@@ -179,8 +186,15 @@ exp :	'(' exp ')' {
 				EmplaceAST<CCallAST>($$, $1, ExpressionList());
 			}
 		| NUMBER {
-		std::cout << "NUMBER" << std::endl;
-				EmplaceAST<CLiteralAST>($$, $1);
+				std::cout << "NUMBER" << std::endl;
+				EmplaceAST<CLiteralAST>($$, CLiteralAST::Value($1));
+			}
+		| STRING {
+				std::string str($1);
+				EmplaceAST<CLiteralAST>($$, CLiteralAST::Value(str));
+			}
+		| BOOLEAN {
+				EmplaceAST<CLiteralAST>($$, CLiteralAST::Value($1));
 			}
 		| ID {
 				std::cout << "ID" << std::endl;

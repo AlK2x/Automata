@@ -34,8 +34,7 @@ public:
 	virtual ~IStatementVisitor() = default;
 	virtual void Visit(CPrintAST & ast) = 0;
 	virtual void Visit(CAssignmentAST & ast) = 0;
-	//virtual void Visit(CReturnAST & ast) = 0;
+	virtual void Visit(CReturnAST & ast) = 0;
 	virtual void Visit(CWhileAST & ast) = 0;
-	//virtual void Visit(CRepeatAst & ast) = 0;
 	virtual void Visit(CIfAST & ast) = 0;
 };
