@@ -1,10 +1,5 @@
 #pragma once
-#include <string>
-#include <vector>
-#include <unordered_map>
-#include <boost/optional.hpp>
-#include <boost/noncopyable.hpp>
-#include <boost/range/adaptor/reversed.hpp>
+#include "stdafx.h"
 
 // Реализует приём "пул строк" (англ. string interning, string pool)
 // Пул строк позволяет однозначно сопоставить строку и её целочисленный ID.

@@ -1,12 +1,6 @@
 #pragma once
-#include "Value.h"
+#include "stdafx.h"
 #include "ASTVisitor.h"
-#include <memory>
-#include <climits>
-#include <iostream>
-#include <vector>
-#include <boost\optional.hpp>
-#include <boost\variant.hpp>
 
 class IExpressionAST;
 class IStatementAST;

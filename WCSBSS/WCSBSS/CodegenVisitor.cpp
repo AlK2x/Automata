@@ -1,22 +1,5 @@
 #include "CodegenVisitor.h"
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-parameter"
-#include <llvm/IR/Constants.h>
-#include <llvm/ADT/APSInt.h>
-#include <llvm/ADT/APFloat.h>
-#include <llvm/IR/LLVMContext.h>
-#include <llvm/IR/IRBuilder.h>
-#include <llvm/IR/Module.h>
-#include <llvm/IR/Function.h>
-#include <llvm/IR/Verifier.h>
-#include <llvm/IR/GlobalVariable.h>
-#include <llvm/Support/raw_ostream.h>
-#include <llvm/ADT/STLExtras.h>
-#define BOOST_RESULT_OF_USE_DECLTYPE
-#include <boost/variant.hpp>
-#include <boost/range/algorithm.hpp>
-#include <boost/range/algorithm_ext/for_each.hpp>
-#pragma clang diagnostic pop
+#include "stdafx.h"
 
 using namespace llvm;
 

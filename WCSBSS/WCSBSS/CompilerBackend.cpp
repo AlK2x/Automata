@@ -1,21 +1,6 @@
 #include "CompilerBackend.h"
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-parameter"
-#include <llvm/IR/LLVMContext.h>
-#include <llvm/PassRegistry.h>
-#include <llvm/Support/Host.h>
-#include <llvm/ADT/Triple.h>
-#include <llvm/Target/TargetMachine.h>
-#include <llvm/Support/TargetRegistry.h>
-#include <llvm/Support/ToolOutputFile.h>
-#include <llvm/Support/FileSystem.h>
-#include <llvm/Support/TargetSelect.h>
-#include <llvm/IR/LegacyPassManager.h>
-#include <llvm/Analysis/TargetLibraryInfo.h>
-#include <llvm/ADT/STLExtras.h>
-#include <llvm/MC/SubtargetFeature.h>
-#pragma clang diagnostic pop
+#include "stdafx.h"
 
 using namespace llvm;
 

@@ -15,13 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="string_view.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="NodeAST.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Value.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Parser_private.h">
@@ -54,15 +48,15 @@
     <ClInclude Include="TypecheckVisitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="NodeAST.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Value.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="wcsbss.flex.cpp">

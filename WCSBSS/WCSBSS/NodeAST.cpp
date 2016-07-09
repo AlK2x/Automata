@@ -72,7 +72,6 @@ const CLiteralAST::Value &CLiteralAST::GetValue() const
 
 void CPrintAST::Accept(IStatementVisitor & visitor)
 {
-	std::cout << "CPrintAST::Accept" << std::endl;
 	visitor.Visit(*this);
 }
 

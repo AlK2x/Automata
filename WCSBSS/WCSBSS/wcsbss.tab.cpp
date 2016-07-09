@@ -67,7 +67,6 @@
 
 #define YYPARSE_PARAM pParser
   #include "NodeAST.h"
-  #include "Value.h"
   #include "Parser_private.h"
   #include "wcsbss.flex.h"
   #include "ParserContext.h"
@@ -75,7 +74,7 @@
   using namespace parser_private;
 
 /* Line 371 of yacc.c  */
-#line 79 "wcsbss.tab.cpp"
+#line 78 "wcsbss.tab.cpp"
 
 # ifndef YY_NULL
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -106,7 +105,7 @@ extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
 /* Line 387 of yacc.c  */
-#line 12 "wcsbss.y"
+#line 11 "wcsbss.y"
 
   #include <stdio.h>
   #include "ParserContext.h"
@@ -115,7 +114,7 @@ extern int yydebug;
 
 
 /* Line 387 of yacc.c  */
-#line 119 "wcsbss.tab.cpp"
+#line 118 "wcsbss.tab.cpp"
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -149,7 +148,7 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 387 of yacc.c  */
-#line 33 "wcsbss.y"
+#line 32 "wcsbss.y"
 
 	class IExpressionAST* e;
 	class IStatementAST *s;
@@ -165,7 +164,7 @@ typedef union YYSTYPE
 
 
 /* Line 387 of yacc.c  */
-#line 169 "wcsbss.tab.cpp"
+#line 168 "wcsbss.tab.cpp"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -201,7 +200,7 @@ int yyparse ();
 #endif /* ! YYPARSE_PARAM */
 /* "%code provides" blocks.  */
 /* Line 387 of yacc.c  */
-#line 24 "wcsbss.y"
+#line 23 "wcsbss.y"
 
    #define YY_DECL \
        int yylex(YYSTYPE* yylvalp, YYLTYPE* yyllocp, void* pParser)
@@ -211,14 +210,14 @@ int yyparse ();
 
 
 /* Line 387 of yacc.c  */
-#line 215 "wcsbss.tab.cpp"
+#line 214 "wcsbss.tab.cpp"
 
 #endif /* !YY_YY_WCSBSS_TAB_H_INCLUDED  */
 
 /* Copy the second part of user declarations.  */
 
 /* Line 390 of yacc.c  */
-#line 222 "wcsbss.tab.cpp"
+#line 221 "wcsbss.tab.cpp"
 
 #ifdef short
 # undef short
@@ -527,11 +526,11 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    76,    76,    77,    78,    81,    86,    95,   100,   105,
-     111,   115,   118,   122,   126,   130,   136,   142,   149,   152,
-     155,   158,   161,   164,   167,   170,   173,   176,   179,   182,
-     186,   190,   194,   198,   201,   208,   212,   216,   222,   228,
-     231,   234
+       0,    75,    75,    76,    77,    80,    85,    93,    98,   103,
+     109,   113,   116,   120,   124,   128,   134,   140,   146,   149,
+     152,   155,   158,   161,   164,   167,   170,   173,   176,   179,
+     183,   187,   190,   194,   197,   204,   208,   212,   218,   224,
+     227,   230
 };
 #endif
 
@@ -546,7 +545,7 @@ static const char *const yytname[] =
   "'='", "'!'", "'+'", "'-'", "'*'", "'/'", "'<'", "'{'", "'}'", "';'",
   "'('", "')'", "','", "$accept", "declaration_list", "declaration",
   "function_declaration", "statement_list", "statement", "expression_list",
-  "exp", "parameter_declaration_list", "parameter_declaration",
+  "expression", "parameter_declaration_list", "parameter_declaration",
   "type_specifier", YY_NULL
 };
 #endif
@@ -1639,25 +1638,13 @@ yyreduce:
     {
         case 2:
 /* Line 1792 of yacc.c  */
-#line 76 "wcsbss.y"
-    { std::cout << "TOP EOL" << std::endl; }
-    break;
-
-  case 3:
-/* Line 1792 of yacc.c  */
-#line 77 "wcsbss.y"
-    { std::cout << "TOP declaration" << std::endl; }
-    break;
-
-  case 4:
-/* Line 1792 of yacc.c  */
-#line 78 "wcsbss.y"
-    { std::cout << "TOP declaration_list" << std::endl; }
+#line 75 "wcsbss.y"
+    { BOOST_LOG_TRIVIAL(debug) << "EOL"; }
     break;
 
   case 5:
 /* Line 1792 of yacc.c  */
-#line 81 "wcsbss.y"
+#line 80 "wcsbss.y"
     {
 			((CParserContext *) pParser)->AddFunction(Take((yyvsp[(1) - (1)].d)));
 		}
@@ -1665,10 +1652,9 @@ yyreduce:
 
   case 6:
 /* Line 1792 of yacc.c  */
-#line 86 "wcsbss.y"
+#line 85 "wcsbss.y"
     {
-				// TODO: use BOOST_LOG_TRIVIAL()
-				std::cout << "Add function" << std::endl;
+				BOOST_LOG_TRIVIAL(debug) << "Add function";
 				auto params = (yyvsp[(3) - (7)].pl)->list;
 				auto body = (yyvsp[(6) - (7)].sl)->list;
 				EmplaceAST<CFunctionAST>((yyval.d), (yyvsp[(2) - (7)].nameId), static_cast<BaseType>((yyvsp[(4) - (7)].nameId)), std::move(*params), std::move(*body));
@@ -1677,7 +1663,7 @@ yyreduce:
 
   case 7:
 /* Line 1792 of yacc.c  */
-#line 95 "wcsbss.y"
+#line 93 "wcsbss.y"
     {
 				(yyval.sl) = new StatementListContainer();
 				(yyval.sl)->list = Make<StatementList>().release();
@@ -1686,9 +1672,9 @@ yyreduce:
 
   case 8:
 /* Line 1792 of yacc.c  */
-#line 100 "wcsbss.y"
+#line 98 "wcsbss.y"
     {
-				std::cout << "statement ';'" << std::endl;
+				BOOST_LOG_TRIVIAL(debug) << "statement ;";
 				(yyval.sl) = new StatementListContainer();
 				CreateList((yyval.sl)->list, (yyvsp[(1) - (2)].s));
 			}
@@ -1696,25 +1682,25 @@ yyreduce:
 
   case 9:
 /* Line 1792 of yacc.c  */
-#line 105 "wcsbss.y"
+#line 103 "wcsbss.y"
     {
-				std::cout << "statement_list ';' statement" << std::endl;
+				BOOST_LOG_TRIVIAL(debug) << "statement_list ';' statement";
 				ConcatList((yyval.sl)->list, (yyvsp[(1) - (3)].sl)->list, (yyvsp[(2) - (3)].s));
 			}
     break;
 
   case 10:
 /* Line 1792 of yacc.c  */
-#line 111 "wcsbss.y"
+#line 109 "wcsbss.y"
     {
 				EmplaceAST<CAssignmentAST>((yyval.s), Take((yyvsp[(3) - (3)].e)), (yyvsp[(1) - (3)].nameId));
-				std::cout << "ID: " << (yyvsp[(1) - (3)].nameId) << " '=' exp" << std::endl;
+				BOOST_LOG_TRIVIAL(debug) << "ID : " << (yyvsp[(1) - (3)].nameId) << " = expression";
 			}
     break;
 
   case 11:
 /* Line 1792 of yacc.c  */
-#line 115 "wcsbss.y"
+#line 113 "wcsbss.y"
     {
 				EmplaceAST<CPrintAST>((yyval.s), Take((yyvsp[(2) - (2)].e)));
 			}
@@ -1722,34 +1708,34 @@ yyreduce:
 
   case 12:
 /* Line 1792 of yacc.c  */
-#line 118 "wcsbss.y"
+#line 116 "wcsbss.y"
     {
-				std::cout << "IF '(' exp ')' '{' statement_list '}'" << std::endl;
+				BOOST_LOG_TRIVIAL(debug) << "IF '(' expression ')' '{' statement_list '}'";
 				EmplaceAST<CIfAST>((yyval.s), Take((yyvsp[(3) - (7)].e)), std::move(*((yyvsp[(6) - (7)].sl)->list)));
 			}
     break;
 
   case 13:
 /* Line 1792 of yacc.c  */
-#line 122 "wcsbss.y"
+#line 120 "wcsbss.y"
     {
-				std::cout << "IF '(' exp ')' '{' statement_list '}' ELSE '{' statement_list '}'" << std::endl;
+				BOOST_LOG_TRIVIAL(debug) << "IF '(' expression ')' '{' statement_list '}' ELSE '{' statement_list '}'";
 				EmplaceAST<CIfAST>((yyval.s), Take((yyvsp[(3) - (11)].e)), std::move(*((yyvsp[(6) - (11)].sl)->list)), std::move(*((yyvsp[(10) - (11)].sl)->list)));
 			}
     break;
 
   case 14:
 /* Line 1792 of yacc.c  */
-#line 126 "wcsbss.y"
+#line 124 "wcsbss.y"
     {
-				std::cout << "'(' exp ')' '{' statement_list '}'" << std::endl;
+				BOOST_LOG_TRIVIAL(debug) << "(' expression ')' '{' statement_list '}'";
 				EmplaceAST<CWhileAST>((yyval.s), Take((yyvsp[(3) - (7)].e)), std::move(*((yyvsp[(6) - (7)].sl)->list)));
 			}
     break;
 
   case 15:
 /* Line 1792 of yacc.c  */
-#line 130 "wcsbss.y"
+#line 128 "wcsbss.y"
     {
 				EmplaceAST<CReturnAST>((yyval.s), Take((yyvsp[(2) - (2)].e)));
 			}
@@ -1757,9 +1743,9 @@ yyreduce:
 
   case 16:
 /* Line 1792 of yacc.c  */
-#line 136 "wcsbss.y"
+#line 134 "wcsbss.y"
     {
-				std::cout << "exp" << std::endl;
+				BOOST_LOG_TRIVIAL(debug) << "expression";
 				(yyval.el) = new ExpressionListContainer();
 				auto b = (yyvsp[(1) - (2)].e);
 				CreateList((yyval.el)->list, (yyvsp[(1) - (2)].e));
@@ -1768,16 +1754,16 @@ yyreduce:
 
   case 17:
 /* Line 1792 of yacc.c  */
-#line 142 "wcsbss.y"
+#line 140 "wcsbss.y"
     {
-				std::cout << "expression_list EOL exp" << std::endl;
+				BOOST_LOG_TRIVIAL(debug) << "expression_list EOL expression";
 				ConcatList((yyval.el)->list, (yyvsp[(1) - (3)].el)->list, (yyvsp[(2) - (3)].e));
 			}
     break;
 
   case 18:
 /* Line 1792 of yacc.c  */
-#line 149 "wcsbss.y"
+#line 146 "wcsbss.y"
     {
 				MovePointer((yyvsp[(2) - (3)].e), (yyval.e));
 			}
@@ -1785,7 +1771,7 @@ yyreduce:
 
   case 19:
 /* Line 1792 of yacc.c  */
-#line 152 "wcsbss.y"
+#line 149 "wcsbss.y"
     { 
 				EmplaceAST<CBinaryExpressionAST>((yyval.e), BinaryOperation::Add, Take((yyvsp[(1) - (3)].e)), Take((yyvsp[(3) - (3)].e)));
 			}
@@ -1793,7 +1779,7 @@ yyreduce:
 
   case 20:
 /* Line 1792 of yacc.c  */
-#line 155 "wcsbss.y"
+#line 152 "wcsbss.y"
     {
 				EmplaceAST<CBinaryExpressionAST>((yyval.e), BinaryOperation::Substract, Take((yyvsp[(1) - (3)].e)), Take((yyvsp[(3) - (3)].e)));
 			}
@@ -1801,7 +1787,7 @@ yyreduce:
 
   case 21:
 /* Line 1792 of yacc.c  */
-#line 158 "wcsbss.y"
+#line 155 "wcsbss.y"
     {
 				EmplaceAST<CBinaryExpressionAST>((yyval.e), BinaryOperation::Multiply, Take((yyvsp[(1) - (3)].e)), Take((yyvsp[(3) - (3)].e)));
 			}
@@ -1809,7 +1795,7 @@ yyreduce:
 
   case 22:
 /* Line 1792 of yacc.c  */
-#line 161 "wcsbss.y"
+#line 158 "wcsbss.y"
     {
 				EmplaceAST<CBinaryExpressionAST>((yyval.e), BinaryOperation::Divide, Take((yyvsp[(1) - (3)].e)), Take((yyvsp[(3) - (3)].e)));
 			}
@@ -1817,7 +1803,7 @@ yyreduce:
 
   case 23:
 /* Line 1792 of yacc.c  */
-#line 164 "wcsbss.y"
+#line 161 "wcsbss.y"
     {
 				EmplaceAST<CBinaryExpressionAST>((yyval.e), BinaryOperation::Less, Take((yyvsp[(1) - (3)].e)), Take((yyvsp[(3) - (3)].e)));
 			}
@@ -1825,7 +1811,7 @@ yyreduce:
 
   case 24:
 /* Line 1792 of yacc.c  */
-#line 167 "wcsbss.y"
+#line 164 "wcsbss.y"
     {
 				EmplaceAST<CBinaryExpressionAST>((yyval.e), BinaryOperation::Equal, Take((yyvsp[(1) - (3)].e)), Take((yyvsp[(3) - (3)].e)));
 			}
@@ -1833,7 +1819,7 @@ yyreduce:
 
   case 25:
 /* Line 1792 of yacc.c  */
-#line 170 "wcsbss.y"
+#line 167 "wcsbss.y"
     {
 				EmplaceAST<CBinaryExpressionAST>((yyval.e), BinaryOperation::NotEqual, Take((yyvsp[(1) - (3)].e)), Take((yyvsp[(3) - (3)].e)));
 			}
@@ -1841,7 +1827,7 @@ yyreduce:
 
   case 26:
 /* Line 1792 of yacc.c  */
-#line 173 "wcsbss.y"
+#line 170 "wcsbss.y"
     {
 				EmplaceAST<CUnaryExpressionAST>((yyval.e), UnaryOperator::Minus, Take((yyvsp[(2) - (2)].e)));
 			}
@@ -1849,7 +1835,7 @@ yyreduce:
 
   case 27:
 /* Line 1792 of yacc.c  */
-#line 176 "wcsbss.y"
+#line 173 "wcsbss.y"
     {
 				EmplaceAST<CUnaryExpressionAST>((yyval.e), UnaryOperator::Plus, Take((yyvsp[(2) - (2)].e)));
 			}
@@ -1857,7 +1843,7 @@ yyreduce:
 
   case 28:
 /* Line 1792 of yacc.c  */
-#line 179 "wcsbss.y"
+#line 176 "wcsbss.y"
     {
 				EmplaceAST<CUnaryExpressionAST>((yyval.e), UnaryOperator::Not, Take((yyvsp[(2) - (2)].e)));
 			}
@@ -1865,34 +1851,33 @@ yyreduce:
 
   case 29:
 /* Line 1792 of yacc.c  */
-#line 182 "wcsbss.y"
+#line 179 "wcsbss.y"
     {
-				std::cout << "ID '(' ')'" << std::endl;
+				BOOST_LOG_TRIVIAL(debug) << "ID '(' ')'";
 				EmplaceAST<CCallAST>((yyval.e), (yyvsp[(1) - (3)].nameId), ExpressionList());
 			}
     break;
 
   case 30:
 /* Line 1792 of yacc.c  */
-#line 186 "wcsbss.y"
+#line 183 "wcsbss.y"
     {
-				std::cout << "ID '(' expression_list ')'" << std::endl;
+				BOOST_LOG_TRIVIAL(debug) << "ID '(' expression_list ')'";
 				EmplaceAST<CCallAST>((yyval.e), (yyvsp[(1) - (4)].nameId), ExpressionList());
 			}
     break;
 
   case 31:
 /* Line 1792 of yacc.c  */
-#line 190 "wcsbss.y"
+#line 187 "wcsbss.y"
     {
-				std::cout << "NUMBER" << std::endl;
 				EmplaceAST<CLiteralAST>((yyval.e), CLiteralAST::Value((yyvsp[(1) - (1)].num)));
 			}
     break;
 
   case 32:
 /* Line 1792 of yacc.c  */
-#line 194 "wcsbss.y"
+#line 190 "wcsbss.y"
     {
 				std::string str((yyvsp[(1) - (1)].str));
 				EmplaceAST<CLiteralAST>((yyval.e), CLiteralAST::Value(str));
@@ -1901,7 +1886,7 @@ yyreduce:
 
   case 33:
 /* Line 1792 of yacc.c  */
-#line 198 "wcsbss.y"
+#line 194 "wcsbss.y"
     {
 				EmplaceAST<CLiteralAST>((yyval.e), CLiteralAST::Value((yyvsp[(1) - (1)].b)));
 			}
@@ -1909,7 +1894,7 @@ yyreduce:
 
   case 34:
 /* Line 1792 of yacc.c  */
-#line 201 "wcsbss.y"
+#line 197 "wcsbss.y"
     {
 				std::cout << "ID" << std::endl;
 				EmplaceAST<CVariableRefAST>((yyval.e), (yyvsp[(1) - (1)].nameId));
@@ -1918,7 +1903,7 @@ yyreduce:
 
   case 35:
 /* Line 1792 of yacc.c  */
-#line 208 "wcsbss.y"
+#line 204 "wcsbss.y"
     {
 				(yyval.pl) = new ParameterDeclListContainer();
 				(yyval.pl)->list = Make<ParameterDeclList>().release();
@@ -1927,7 +1912,7 @@ yyreduce:
 
   case 36:
 /* Line 1792 of yacc.c  */
-#line 212 "wcsbss.y"
+#line 208 "wcsbss.y"
     {
 				(yyval.pl) = new ParameterDeclListContainer();
 				CreateList((yyval.pl)->list, (yyvsp[(2) - (3)].p));
@@ -1936,7 +1921,7 @@ yyreduce:
 
   case 37:
 /* Line 1792 of yacc.c  */
-#line 216 "wcsbss.y"
+#line 212 "wcsbss.y"
     {
 				ConcatList((yyval.pl)->list, (yyvsp[(1) - (5)].pl)->list, (yyvsp[(4) - (5)].p));
 			}
@@ -1944,7 +1929,7 @@ yyreduce:
 
   case 38:
 /* Line 1792 of yacc.c  */
-#line 222 "wcsbss.y"
+#line 218 "wcsbss.y"
     {
 		EmplaceAST<CParameterDeclAST>((yyval.p), (yyvsp[(2) - (2)].nameId), static_cast<BaseType>(yyvsp[(1) - (2)].nameId));
 	}
@@ -1952,7 +1937,7 @@ yyreduce:
 
   case 39:
 /* Line 1792 of yacc.c  */
-#line 228 "wcsbss.y"
+#line 224 "wcsbss.y"
     {
 			(yyval.nameId) = static_cast<unsigned>(BaseType::Double);
 		}
@@ -1960,7 +1945,7 @@ yyreduce:
 
   case 40:
 /* Line 1792 of yacc.c  */
-#line 231 "wcsbss.y"
+#line 227 "wcsbss.y"
     {
 			(yyval.nameId) = static_cast<unsigned>(BaseType::String);
 		}
@@ -1968,7 +1953,7 @@ yyreduce:
 
   case 41:
 /* Line 1792 of yacc.c  */
-#line 234 "wcsbss.y"
+#line 230 "wcsbss.y"
     {
 			(yyval.nameId) = static_cast<unsigned>(BaseType::Boolean);
 		}
@@ -1976,7 +1961,7 @@ yyreduce:
 
 
 /* Line 1792 of yacc.c  */
-#line 1980 "wcsbss.tab.cpp"
+#line 1965 "wcsbss.tab.cpp"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2215,7 +2200,7 @@ yyreturn:
 
 
 /* Line 2055 of yacc.c  */
-#line 239 "wcsbss.y"
+#line 235 "wcsbss.y"
 
 
 int yyerror (YYLTYPE* yyllocp, void* pParser, const char* message) {

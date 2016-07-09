@@ -211,6 +211,7 @@ extern char *yytext;
 
 #ifdef YY_HEADER_EXPORT_START_CONDITIONS
 #define INITIAL 0
+#define IN_COMMENT 1
 
 #endif
 
@@ -311,9 +312,9 @@ extern int yylex (void);
 #undef YY_DECL
 #endif
 
-#line 66 "wcsbss.l"
+#line 72 "wcsbss.l"
 
 
-#line 318 "wcsbss.flex.h"
+#line 319 "wcsbss.flex.h"
 #undef yyIN_HEADER
 #endif /* yyHEADER_H */

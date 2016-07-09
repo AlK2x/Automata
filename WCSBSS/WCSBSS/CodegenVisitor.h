@@ -1,20 +1,9 @@
 #pragma once
 
-#include <stdint.h>
-#include <vector>
-#include <unordered_set>
-#include <unordered_map>
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-parameter"
-#include <llvm/IR/Value.h>
-#include <llvm/IR/IRBuilder.h>
-#pragma clang diagnostic pop
+#include "stdafx.h"
 #include "ASTVisitor.h"
 #include "NodeAST.h"
 #include "FrontendContext.h"
-#include <boost/optional.hpp>
-#include <boost/noncopyable.hpp>
-#include <boost/range/adaptor/reversed.hpp>
 #include "ParserContext.h"
 
 class CFrontendContext;

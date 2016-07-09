@@ -6,7 +6,7 @@
 %}
 
 EXP	([Ee][-+]?[0-9]+)
-
+%x IN_COMMENT
 %%
 
 "+" |
@@ -61,7 +61,14 @@ EXP	([Ee][-+]?[0-9]+)
 				return ID;
 			}
 
-[ \t\n]         /* white space */
+"//"[^\n]* 			/* comment */
+
+<INITIAL>"/*"				BEGIN(IN_COMMENT);
+<IN_COMMENT>"*/"			BEGIN(INITIAL);  
+<IN_COMMENT>[.\n]+			{ }
+
+[ \t\n]			/* white space */
 .   {  std::cout << "Mystery character " <<  yytext << std::endl; }
 
 %%
+

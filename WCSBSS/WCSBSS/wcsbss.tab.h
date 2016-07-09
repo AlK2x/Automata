@@ -41,7 +41,7 @@ extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
 /* Line 2058 of yacc.c  */
-#line 12 "wcsbss.y"
+#line 11 "wcsbss.y"
 
   #include <stdio.h>
   #include "ParserContext.h"
@@ -84,7 +84,7 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 33 "wcsbss.y"
+#line 32 "wcsbss.y"
 
 	class IExpressionAST* e;
 	class IStatementAST *s;
@@ -136,7 +136,7 @@ int yyparse ();
 #endif /* ! YYPARSE_PARAM */
 /* "%code provides" blocks.  */
 /* Line 2058 of yacc.c  */
-#line 24 "wcsbss.y"
+#line 23 "wcsbss.y"
 
    #define YY_DECL \
        int yylex(YYSTYPE* yylvalp, YYLTYPE* yyllocp, void* pParser)
