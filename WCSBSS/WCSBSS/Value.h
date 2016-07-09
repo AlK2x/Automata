@@ -1,4 +1,6 @@
 #pragma once
+
+// TODO: remove it
 struct SValue
 {
 	double value;

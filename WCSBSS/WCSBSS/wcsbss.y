@@ -84,6 +84,7 @@ declaration : function_declaration {
 ;
 
 function_declaration : FUNCTION ID parameter_declaration_list type_specifier '{' statement_list '}' {
+				// TODO: use BOOST_LOG_TRIVIAL()
 				std::cout << "Add function" << std::endl;
 				auto params = $3->list;
 				auto body = $6->list;
@@ -144,6 +145,7 @@ expression_list :
 			}
 ;
 
+// TODO: exp -> expression or expr
 exp :	'(' exp ')' {
 				MovePointer($2, $$);
 			}
