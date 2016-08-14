@@ -17,6 +17,11 @@ struct LiteralTypeEvaluator : boost::static_visitor<BaseType>
 	{
 		return BaseType::String;
 	}
+
+	BaseType operator()(char const&) const
+	{
+		return BaseType::Char;
+	}
 };
 
 CBinaryExpressionAST::CBinaryExpressionAST(BinaryOperation op, IExpressionASTUniquePtr && left, IExpressionASTUniquePtr && right)
@@ -296,3 +301,12 @@ void CReturnAST::Accept(IStatementVisitor &visitor)
 	visitor.Visit(*this);
 }
 
+CPositionAccessAST::CPositionAccessAST(IExpressionASTUniquePtr && id, IExpressionASTUniquePtr && position)
+	:m_variable(std::move(id)), m_position(std::move(position))
+{
+}
+
+void CPositionAccessAST::Accept(IExpressionVisitor & visitor)
+{
+//	visitor.Visit(*this);
+}

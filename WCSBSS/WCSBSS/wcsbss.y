@@ -41,15 +41,17 @@
 	unsigned nameId;
 	bool b;
 	char * str;
+	char ch;
 }
 
 %token <nameId> ID
 %token <num> NUMBER
 %token <b> BOOLEAN
 %token <str> STRING
+%token <ch> CHAR
 %token IF THEN ELSE WHILE LET FUNCTION
 %token EQUAL NOTEQUAL
-%token NUMBER_TYPE STRING_TYPE BOOLEAN_TYPE
+%token NUMBER_TYPE STRING_TYPE BOOLEAN_TYPE CHAR_TYPE
 %token PRINT RETURN
 %token EOL
 
@@ -176,6 +178,9 @@ expression :	'(' expression ')' {
 		| '!' expression {
 				EmplaceAST<CUnaryExpressionAST>($$, UnaryOperator::Not, Take($2));
 			}
+		| ID '[' expression ']' {
+				BOOST_LOG_TRIVIAL(debug) << "ID '[' expression ']'";
+			}
 		| ID '(' ')' {
 				BOOST_LOG_TRIVIAL(debug) << "ID '(' ')'";
 				EmplaceAST<CCallAST>($$, $1, ExpressionList());
@@ -192,6 +197,9 @@ expression :	'(' expression ')' {
 				EmplaceAST<CLiteralAST>($$, CLiteralAST::Value(str));
 			}
 		| BOOLEAN {
+				EmplaceAST<CLiteralAST>($$, CLiteralAST::Value($1));
+			}
+		| CHAR {
 				EmplaceAST<CLiteralAST>($$, CLiteralAST::Value($1));
 			}
 		| ID {
@@ -229,6 +237,9 @@ type_specifier
 		}
 	| BOOLEAN_TYPE {
 			$$ = static_cast<unsigned>(BaseType::Boolean);
+		}
+	| CHAR_TYPE {
+			$$ = static_cast<char>(BaseType::Char);
 		}
 ;
 

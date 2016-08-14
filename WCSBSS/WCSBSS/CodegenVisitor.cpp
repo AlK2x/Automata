@@ -49,6 +49,11 @@ namespace
 			return m_context.AddStringLiteral(value);
 		}
 
+		Constant *operator ()(char const& value) const
+		{
+			return ConstantInt::get(m_context.GetLLVMContext(), APInt(8, static_cast<uint64_t>(value), true));
+		}
+
 	private:
 		CCodegenContext &m_context;
 	};
@@ -88,6 +93,8 @@ namespace
 			return Type::getDoubleTy(context);
 		case BaseType::String:
 			return Type::getInt8PtrTy(context);
+		case BaseType::Char:
+			return Type::getInt8Ty(context);
 		}
 		throw std::logic_error("ConvertType: unkown expression type");
 	}
@@ -335,6 +342,9 @@ void CExpressionCodeGenerator::Visit(CBinaryExpressionAST &expr)
 	case BaseType::String:
 		pValue = GenerateStringExpr(a, expr.GetOperation(), b);
 		break;
+	case BaseType::Char:
+		pValue = GenerateNumericExpr(a, expr.GetOperation(), b);
+		break;
 	}
 	m_values.push_back(pValue);
 }
@@ -394,6 +404,12 @@ void CExpressionCodeGenerator::Visit(CParameterDeclAST &expr)
 	m_values.push_back(pVar);
 	m_context.GetVariables().DefineSymbol(expr.GetName(), pVar);
 }
+
+//void CExpressionCodeGenerator::Visit(CPositionAccessAST & expr)
+//{
+//	LLVMContext &context = m_context.GetLLVMContext();
+//
+//}
 
 Value *CExpressionCodeGenerator::GenerateNumericExpr(Value *a, BinaryOperation op, Value *b)
 {

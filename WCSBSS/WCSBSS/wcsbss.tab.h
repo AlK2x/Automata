@@ -62,20 +62,22 @@ extern int yydebug;
      NUMBER = 259,
      BOOLEAN = 260,
      STRING = 261,
-     IF = 262,
-     THEN = 263,
-     ELSE = 264,
-     WHILE = 265,
-     LET = 266,
-     FUNCTION = 267,
-     EQUAL = 268,
-     NOTEQUAL = 269,
-     NUMBER_TYPE = 270,
-     STRING_TYPE = 271,
-     BOOLEAN_TYPE = 272,
-     PRINT = 273,
-     RETURN = 274,
-     EOL = 275
+     CHAR = 262,
+     IF = 263,
+     THEN = 264,
+     ELSE = 265,
+     WHILE = 266,
+     LET = 267,
+     FUNCTION = 268,
+     EQUAL = 269,
+     NOTEQUAL = 270,
+     NUMBER_TYPE = 271,
+     STRING_TYPE = 272,
+     BOOLEAN_TYPE = 273,
+     CHAR_TYPE = 274,
+     PRINT = 275,
+     RETURN = 276,
+     EOL = 277
    };
 #endif
 
@@ -97,10 +99,11 @@ typedef union YYSTYPE
 	unsigned nameId;
 	bool b;
 	char * str;
+	char ch;
 
 
 /* Line 2058 of yacc.c  */
-#line 104 "wcsbss.tab.h"
+#line 107 "wcsbss.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -146,6 +149,6 @@ int yyparse ();
 
 
 /* Line 2058 of yacc.c  */
-#line 150 "wcsbss.tab.h"
+#line 153 "wcsbss.tab.h"
 
 #endif /* !YY_YY_WCSBSS_TAB_H_INCLUDED  */

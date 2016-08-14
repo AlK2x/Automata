@@ -19,6 +19,8 @@ EXP	([Ee][-+]?[0-9]+)
 "," |
 ";" |
 "|" |
+"[" |
+"]" |
 "{" |
 "<" |
 "!" |
@@ -38,6 +40,7 @@ EXP	([Ee][-+]?[0-9]+)
 "double" { return NUMBER_TYPE; }
 "string" { return STRING_TYPE; }
 "bool"   { return BOOLEAN_TYPE; }
+"char"   { return CHAR_TYPE; }
 
 "true"  { yylvalp->b = true; return BOOLEAN; }
 "false" { yylvalp->b = false; return BOOLEAN; }
@@ -48,6 +51,11 @@ EXP	([Ee][-+]?[0-9]+)
 [a-zA-Z_]?\"(\\.|[^\\"\n])*\" {
 				yylvalp->str = yytext;
 				return STRING;
+			}
+
+'([^'\\\n]|\\.)+' {
+				yylvalp->ch = yytext[0];
+				return CHAR;
 			}
 
 [0-9]+"."[0-9]*{EXP}?	|

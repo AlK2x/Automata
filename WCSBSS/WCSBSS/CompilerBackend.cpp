@@ -121,7 +121,7 @@ void CCompilerBackend::GenerateObjectFile(Module &module, bool isDebug, const st
 
 	// Передаём в модуль IR-кода данные целевой платформы.
 	module.setDataLayout(targetMachine->createDataLayout());
-
+	module.dump();
 	// Предлагаем целевой платформе добавить проходы кодогенератора.
 	if (targetMachine->addPassesToEmitFile(passMananger, out->os(), TargetMachine::CGFT_ObjectFile,
 		false, nullptr, nullptr, nullptr, nullptr))

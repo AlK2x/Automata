@@ -22,7 +22,8 @@ enum class BaseType
 {
 	Boolean,
 	Double,
-	String
+	String,
+	Char
 };
 
 enum class BinaryOperation
@@ -137,7 +138,8 @@ public:
 	typedef boost::variant<
 		bool,
 		double,
-		std::string
+		std::string,
+		char
 	> Value;
 
 	CLiteralAST(Value const& value);
@@ -291,4 +293,14 @@ protected:
 
 private:
 	IExpressionASTUniquePtr m_value;
+};
+
+class CPositionAccessAST : public IExpressionAST
+{
+public:
+	CPositionAccessAST(IExpressionASTUniquePtr && id, IExpressionASTUniquePtr && position);
+	void Accept(IExpressionVisitor & visitor) override;
+private:
+	IExpressionASTUniquePtr m_variable;
+	IExpressionASTUniquePtr m_position;
 };

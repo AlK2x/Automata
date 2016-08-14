@@ -106,6 +106,7 @@ protected:
 	void Visit(CCallAST &expr) override;
 	void Visit(CVariableRefAST &expr) override;
 	void Visit(CParameterDeclAST & expr) override;
+//	void Visit(CPositionAccessAST & expr) override;
 
 private:
 	llvm::Value *GenerateNumericExpr(llvm::Value *a, BinaryOperation op, llvm::Value *b);

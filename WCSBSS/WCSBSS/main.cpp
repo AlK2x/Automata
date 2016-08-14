@@ -5,6 +5,7 @@
 #include "CodegenVisitor.h"
 #include "CompilerBackend.h"
 #include "TypecheckVisitor.h"
+#include <stdio.h>
 
 using namespace std;
 
