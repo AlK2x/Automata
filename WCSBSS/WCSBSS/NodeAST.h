@@ -272,10 +272,7 @@ public:
 
 	const DeclarationList & GetDeclarations() const;
 
-	~CProgramAST()
-	{
-		std::cout << "~CPRogramAST" << std::endl;
-	}
+	~CProgramAST() = default;
 
 private:
 	DeclarationList m_declarations;
@@ -295,12 +292,12 @@ private:
 	IExpressionASTUniquePtr m_value;
 };
 
-class CPositionAccessAST : public IExpressionAST
+class CPositionAccessAST : public CAbstractExpressionAST
 {
 public:
-	CPositionAccessAST(IExpressionASTUniquePtr && id, IExpressionASTUniquePtr && position);
+	CPositionAccessAST(unsigned nameId, IExpressionASTUniquePtr && position);
 	void Accept(IExpressionVisitor & visitor) override;
 private:
-	IExpressionASTUniquePtr m_variable;
+	unsigned m_nameId;
 	IExpressionASTUniquePtr m_position;
 };

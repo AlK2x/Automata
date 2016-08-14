@@ -301,8 +301,8 @@ void CReturnAST::Accept(IStatementVisitor &visitor)
 	visitor.Visit(*this);
 }
 
-CPositionAccessAST::CPositionAccessAST(IExpressionASTUniquePtr && id, IExpressionASTUniquePtr && position)
-	:m_variable(std::move(id)), m_position(std::move(position))
+CPositionAccessAST::CPositionAccessAST(unsigned nameId, IExpressionASTUniquePtr && position)
+	:m_nameId(nameId), m_position(std::move(position))
 {
 }
 

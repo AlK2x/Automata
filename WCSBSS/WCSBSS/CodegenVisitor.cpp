@@ -549,9 +549,12 @@ void CFunctionCodeGenerator::Visit(CPrintAST &ast)
 	}
 
 	Constant* pFormatAddress = m_context.AddStringLiteral(format);
+	
 	Function *pFunction = m_context.GetBuiltinFunction(BuiltinFunction::PRINTF);
+	//llvm::Constant *printfFunc = m_context.GetModule().getOrInsertFunction("printf", pFunction->getFunctionType());
+	pFunction->setCallingConv(llvm::CallingConv::C);
 	std::vector<llvm::Value *> args = { pFormatAddress, pValue };
-	m_builder.CreateCall(pFunction, args);
+	m_builder.CreateCall(pFunction, args, "prin");
 	FreeExpressionAllocs();
 }
 

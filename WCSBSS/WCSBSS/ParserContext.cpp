@@ -34,6 +34,4 @@ std::unique_ptr<CProgramAST> CParserContext::TakeAwayProgram()
 
 CParserContext::~CParserContext()
 {
-	std::cout << "~CParserContext" << std::endl;
 }
-

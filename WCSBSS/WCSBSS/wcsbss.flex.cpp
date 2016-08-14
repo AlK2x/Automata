@@ -854,7 +854,7 @@ case 15:
 case 16:
 YY_RULE_SETUP
 #line 27 "wcsbss.l"
-{ return yytext[0]; }
+{ BOOST_LOG_TRIVIAL(debug) << "token: " << yytext[0]; return yytext[0]; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
@@ -896,7 +896,7 @@ YY_RULE_SETUP
 case 25:
 YY_RULE_SETUP
 #line 38 "wcsbss.l"
-{ return FUNCTION; }
+{ BOOST_LOG_TRIVIAL(debug) << "token: func"; return FUNCTION; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
@@ -943,73 +943,77 @@ YY_RULE_SETUP
 #line 51 "wcsbss.l"
 {
 				yylvalp->str = yytext;
+				BOOST_LOG_TRIVIAL(debug) << "token: some str" << yylvalp->str;
 				return STRING;
 			}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 56 "wcsbss.l"
+#line 57 "wcsbss.l"
 {
+				BOOST_LOG_TRIVIAL(debug) << "token: char " << yytext[0];
 				yylvalp->ch = yytext[0];
 				return CHAR;
 			}
 	YY_BREAK
 case 36:
-#line 62 "wcsbss.l"
+#line 64 "wcsbss.l"
 case 37:
 YY_RULE_SETUP
-#line 62 "wcsbss.l"
+#line 64 "wcsbss.l"
 { 
-				yylvalp->num = atof(yytext); 
+				yylvalp->num = atof(yytext);
+				BOOST_LOG_TRIVIAL(debug) << "token: number" << yylvalp->num;
 				return NUMBER; 
 			}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 67 "wcsbss.l"
+#line 70 "wcsbss.l"
 { 
 				yylvalp->nameId = ((CParserContext *) pParser)->GetIdentifierId(yytext);
+				BOOST_LOG_TRIVIAL(debug) << "token: ID " << yylvalp->nameId;
 				return ID;
 			}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 72 "wcsbss.l"
+#line 76 "wcsbss.l"
 /* comment */
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 74 "wcsbss.l"
+#line 78 "wcsbss.l"
 BEGIN(IN_COMMENT);
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 75 "wcsbss.l"
+#line 79 "wcsbss.l"
 BEGIN(INITIAL);  
 	YY_BREAK
 case 42:
 /* rule 42 can match eol */
 YY_RULE_SETUP
-#line 76 "wcsbss.l"
+#line 80 "wcsbss.l"
 { }
 	YY_BREAK
 case 43:
 /* rule 43 can match eol */
 YY_RULE_SETUP
-#line 78 "wcsbss.l"
+#line 82 "wcsbss.l"
 /* white space */
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 79 "wcsbss.l"
+#line 83 "wcsbss.l"
 {  std::cout << "Mystery character " <<  yytext << std::endl; }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 81 "wcsbss.l"
+#line 85 "wcsbss.l"
 ECHO;
 	YY_BREAK
-#line 1013 "wcsbss.flex.cpp"
+#line 1017 "wcsbss.flex.cpp"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(IN_COMMENT):
 	yyterminate();
@@ -2004,7 +2008,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 80 "wcsbss.l"
+#line 84 "wcsbss.l"
 
 
 

@@ -24,7 +24,7 @@ EXP	([Ee][-+]?[0-9]+)
 "{" |
 "<" |
 "!" |
-"}"  { return yytext[0]; }
+"}"  { BOOST_LOG_TRIVIAL(debug) << "token: " << yytext[0]; return yytext[0]; }
 
 "==" { return EQUAL; }
 "!=" |
@@ -35,7 +35,7 @@ EXP	([Ee][-+]?[0-9]+)
 "else"  { return ELSE; }
 "while" { return WHILE; }
 "let"   { return LET; }
-"func"  { return FUNCTION; }
+"func"  { BOOST_LOG_TRIVIAL(debug) << "token: func"; return FUNCTION; }
 
 "double" { return NUMBER_TYPE; }
 "string" { return STRING_TYPE; }
@@ -50,22 +50,26 @@ EXP	([Ee][-+]?[0-9]+)
 
 [a-zA-Z_]?\"(\\.|[^\\"\n])*\" {
 				yylvalp->str = yytext;
+				BOOST_LOG_TRIVIAL(debug) << "token: some str" << yylvalp->str;
 				return STRING;
 			}
 
 '([^'\\\n]|\\.)+' {
+				BOOST_LOG_TRIVIAL(debug) << "token: char " << yytext[0];
 				yylvalp->ch = yytext[0];
 				return CHAR;
 			}
 
 [0-9]+"."[0-9]*{EXP}?	|
 "."?[0-9]+{EXP}? { 
-				yylvalp->num = atof(yytext); 
+				yylvalp->num = atof(yytext);
+				BOOST_LOG_TRIVIAL(debug) << "token: number" << yylvalp->num;
 				return NUMBER; 
 			}
 
 [A-Za-z][A-Za-z0-9_]*	{ 
 				yylvalp->nameId = ((CParserContext *) pParser)->GetIdentifierId(yytext);
+				BOOST_LOG_TRIVIAL(debug) << "token: ID " << yylvalp->nameId;
 				return ID;
 			}
 

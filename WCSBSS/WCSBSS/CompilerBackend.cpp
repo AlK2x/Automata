@@ -46,9 +46,10 @@ namespace
 	void InitializeBackend()
 	{
 		llvm::InitializeAllTargets();
-		llvm::InitializeAllTargetMCs();
+		llvm::InitializeAllTargetMCs();	
 		llvm::InitializeAllAsmPrinters();
 		llvm::InitializeAllAsmParsers();
+		//llvm::sys::DynamicLibrary::AddSymbol();
 	}
 
 	PassRegistry *SetupPassRegistry()
