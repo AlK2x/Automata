@@ -23,6 +23,7 @@ protected:
 	void Visit(CCallAST &expr) override;
 	void Visit(CVariableRefAST &expr) override;
 	void Visit(CParameterDeclAST &expr) override;
+	void Visit(CPositionAccessAST &expr) override;
 
 private:
 	std::vector<BaseType> EvaluateArgumentTypes(CCallAST &expr);

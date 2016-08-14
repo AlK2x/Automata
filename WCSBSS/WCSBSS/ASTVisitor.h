@@ -18,7 +18,7 @@ public:
 	virtual void Visit(CCallAST & expr) = 0;
 	virtual void Visit(CVariableRefAST & expr) = 0;
 	virtual void Visit(CParameterDeclAST & expr) = 0;
-//	virtual void Visit(CPositionAccessAST & expr) = 0;
+	virtual void Visit(CPositionAccessAST & expr) = 0;
 };
 
 class IStatementAST;

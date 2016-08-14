@@ -14,6 +14,8 @@ namespace
 			return "Double";
 		case BaseType::String:
 			return "String";
+		case BaseType::Char:
+			return "Char";
 		}
 		throw std::logic_error("cannot print unknown type name");
 	}
@@ -179,6 +181,10 @@ void CTypeEvaluator::Visit(CVariableRefAST &expr)
 void CTypeEvaluator::Visit(CParameterDeclAST &)
 {
 	// Parameter type is known at parsing time.
+}
+
+void CTypeEvaluator::Visit(CPositionAccessAST & expr)
+{
 }
 
 std::vector<BaseType> CTypeEvaluator::EvaluateArgumentTypes(CCallAST &expr)
