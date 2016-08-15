@@ -304,9 +304,45 @@ void CReturnAST::Accept(IStatementVisitor &visitor)
 CPositionAccessAST::CPositionAccessAST(unsigned nameId, IExpressionASTUniquePtr && position)
 	:m_nameId(nameId), m_position(std::move(position))
 {
+	SetType(BaseType::Char);
 }
 
 void CPositionAccessAST::Accept(IExpressionVisitor & visitor)
 {
-//	visitor.Visit(*this);
+	visitor.Visit(*this);
+}
+
+IExpressionAST & CPositionAccessAST::GetPosition()
+{
+	return *m_position;
+}
+
+unsigned CPositionAccessAST::GetName() const
+{
+	return m_nameId;
+}
+
+CIndexAssignmentAST::CIndexAssignmentAST(IExpressionASTUniquePtr && index, unsigned nameId, IExpressionASTUniquePtr && value)
+	:m_index(std::move(index)), m_nameId(nameId), m_value(std::move(value))
+{
+}
+
+void CIndexAssignmentAST::Accept(IStatementVisitor & visitor)
+{
+	visitor.Visit(*this);
+}
+
+unsigned CIndexAssignmentAST::GetNameId() const
+{
+	return m_nameId;
+}
+
+IExpressionAST & CIndexAssignmentAST::GetValue()
+{
+	return *m_value;
+}
+
+IExpressionAST & CIndexAssignmentAST::GetIndex()
+{
+	return *m_index;
 }

@@ -130,6 +130,9 @@ statement : ID '=' expression {
 		| RETURN expression {
 				EmplaceAST<CReturnAST>($$, Take($2));
 			}
+		| ID '[' expression ']' '=' expression {
+				BOOST_LOG_TRIVIAL(debug) << "statement::ID[expression]=expression";
+			}
 ;
 
 expression_list :

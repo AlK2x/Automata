@@ -234,6 +234,21 @@ private:
 	IExpressionASTUniquePtr m_expression;
 };
 
+class CIndexAssignmentAST : public IStatementAST
+{
+public:
+	CIndexAssignmentAST(IExpressionASTUniquePtr && index, unsigned nameId, IExpressionASTUniquePtr && value);
+
+	virtual void Accept(IStatementVisitor & visitor) override;
+	unsigned GetNameId()const;
+	IExpressionAST & GetValue();
+	IExpressionAST & GetIndex();
+private:
+	unsigned m_nameId;
+	IExpressionASTUniquePtr m_index;
+	IExpressionASTUniquePtr m_value;
+};
+
 class CWhileAST : public IStatementAST
 {
 public:
@@ -297,6 +312,8 @@ class CPositionAccessAST : public CAbstractExpressionAST
 public:
 	CPositionAccessAST(unsigned nameId, IExpressionASTUniquePtr && position);
 	void Accept(IExpressionVisitor & visitor) override;
+	IExpressionAST &GetPosition();
+	unsigned GetName()const;
 private:
 	unsigned m_nameId;
 	IExpressionASTUniquePtr m_position;

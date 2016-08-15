@@ -106,7 +106,7 @@ protected:
 	void Visit(CCallAST &expr) override;
 	void Visit(CVariableRefAST &expr) override;
 	void Visit(CParameterDeclAST & expr) override;
-//	void Visit(CPositionAccessAST & expr) override;
+	void Visit(CPositionAccessAST & expr) override;
 
 private:
 	llvm::Value *GenerateNumericExpr(llvm::Value *a, BinaryOperation op, llvm::Value *b);
@@ -136,6 +136,7 @@ protected:
 	void Visit(CReturnAST &ast) override;
 	void Visit(CWhileAST &ast) override;
 	void Visit(CIfAST &ast) override;
+	void Visit(CIndexAssignmentAST &ast) override;
 
 private:
 	void LoadParameters(llvm::Function &fn, const ParameterDeclList &parameterNames);

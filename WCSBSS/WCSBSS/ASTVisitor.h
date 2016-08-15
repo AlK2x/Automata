@@ -7,6 +7,7 @@ class CLiteralAST;
 class CCallAST;
 class CVariableRefAST;
 class CParameterDeclAST;
+class CPositionAccessAST;
 
 class IExpressionVisitor
 {
@@ -28,6 +29,7 @@ class CReturnAST;
 class CWhileAST;
 class CRepeatAst;
 class CIfAST;
+class CIndexAssignmentAST;
 
 class IStatementVisitor
 {
@@ -38,4 +40,5 @@ public:
 	virtual void Visit(CReturnAST & ast) = 0;
 	virtual void Visit(CWhileAST & ast) = 0;
 	virtual void Visit(CIfAST & ast) = 0;
+	virtual void Visit(CIndexAssignmentAST & ast) = 0;
 };

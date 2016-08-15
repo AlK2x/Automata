@@ -53,6 +53,7 @@ protected:
 	void Visit(CReturnAST &ast) override;
 	void Visit(CWhileAST &ast) override;
 	void Visit(CIfAST &ast) override;
+	void Visit(CIndexAssignmentAST &ast) override;
 	void CheckConditionalAstTypes(IExpressionAST &condition, const StatementList &body);
 
 private:

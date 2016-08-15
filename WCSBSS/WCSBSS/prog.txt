@@ -1,10 +1,5 @@
-func foo() double {
-print "string";
-return 123;
-}
-
 func main() bool {
-foo();	
-print 23 + 234;	
-	
+ d = "abc";
+ e = d[0];
+ print "e";
 }

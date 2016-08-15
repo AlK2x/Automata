@@ -185,6 +185,8 @@ void CTypeEvaluator::Visit(CParameterDeclAST &)
 
 void CTypeEvaluator::Visit(CPositionAccessAST & expr)
 {
+	expr.GetPosition().Accept(*this);
+	expr.SetType(BaseType::Char);
 }
 
 std::vector<BaseType> CTypeEvaluator::EvaluateArgumentTypes(CCallAST &expr)
@@ -287,6 +289,23 @@ void CTypecheckVisitor::Visit(CIfAST &ast)
 	for (const auto &pStmt : ast.GetElseBody())
 	{
 		pStmt->Accept(*this);
+	}
+}
+
+void CTypecheckVisitor::Visit(CIndexAssignmentAST & ast)
+{
+	BaseType valueType = m_evaluator.EvaluateTypes(ast.GetValue());
+	BaseType indexType = m_evaluator.EvaluateTypes(ast.GetIndex());
+	if (indexType != BaseType::Double)
+	{
+		std::string typeName = PrettyPrint(indexType);
+		throw std::logic_error("Index must be a number. Got " + typeName);
+	}
+
+	if (valueType != BaseType::Char)
+	{
+		std::string typeName = PrettyPrint(indexType);
+		throw std::logic_error("Only chat allow. Got " + typeName);
 	}
 }
 

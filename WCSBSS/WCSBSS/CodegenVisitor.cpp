@@ -405,11 +405,27 @@ void CExpressionCodeGenerator::Visit(CParameterDeclAST &expr)
 	m_context.GetVariables().DefineSymbol(expr.GetName(), pVar);
 }
 
-//void CExpressionCodeGenerator::Visit(CPositionAccessAST & expr)
-//{
-//	LLVMContext &context = m_context.GetLLVMContext();
-//
-//}
+void CExpressionCodeGenerator::Visit(CPositionAccessAST & expr)
+{
+	LLVMContext &context = m_context.GetLLVMContext();
+	Type *type = ConvertType(context, expr.GetType());
+
+	expr.GetPosition().Accept(*this);
+	Value *x = m_values.back();
+	unsigned index = 0;
+	if (llvm::ConstantFP* ci = dyn_cast<llvm::ConstantFP>(x)) {
+		const APInt &fIndex = ci->getValueAPF().bitcastToAPInt();
+		index = fIndex.getLimitedValue();
+	}
+	m_values.pop_back();
+	Value *x2 = m_values.back();
+	if (llvm::ConstantDataArray* ci = dyn_cast<llvm::ConstantDataArray>(x2)) {
+		auto type = ci->getElementType();
+
+	}
+	
+	m_values.pop_back();
+}
 
 Value *CExpressionCodeGenerator::GenerateNumericExpr(Value *a, BinaryOperation op, Value *b)
 {
@@ -554,7 +570,7 @@ void CFunctionCodeGenerator::Visit(CPrintAST &ast)
 	//llvm::Constant *printfFunc = m_context.GetModule().getOrInsertFunction("printf", pFunction->getFunctionType());
 	pFunction->setCallingConv(llvm::CallingConv::C);
 	std::vector<llvm::Value *> args = { pFormatAddress, pValue };
-	m_builder.CreateCall(pFunction, args, "prin");
+	m_builder.CreateCall(pFunction, args);
 	FreeExpressionAllocs();
 }
 
@@ -611,6 +627,26 @@ void CFunctionCodeGenerator::Visit(CIfAST &ast)
 	FillBlockAndJump(ast.GetThenBody(), thenBB, mergeBB);
 	FillBlockAndJump(ast.GetElseBody(), elseBB, mergeBB);
 	m_builder.SetInsertPoint(mergeBB);
+}
+
+void CFunctionCodeGenerator::Visit(CIndexAssignmentAST & ast)
+{
+	llvm::Value *pValue = m_exprGen.Codegen(ast.GetValue());
+	llvm::Value *pIndex = m_exprGen.Codegen(ast.GetIndex());
+	unsigned nameId = ast.GetNameId();
+	AllocaInst *pVar = m_context.GetVariables().GetSymbol(nameId).get_value_or(nullptr);
+	if (!pVar)
+	{
+		Function *pFunction = m_builder.GetInsertBlock()->getParent();
+		pVar = MakeLocalVariable(*pFunction, *pValue->getType(), m_context.GetString(nameId));
+		m_context.GetVariables().DefineSymbol(nameId, pVar);
+	}
+	m_builder.CreateStore(MakeValueCopy(pValue), pVar);
+	if (pValue->getType()->isPointerTy())
+	{
+		m_context.GetFunctionStrings().Manage(pValue);
+	}
+	FreeExpressionAllocs();
 }
 
 void CFunctionCodeGenerator::LoadParameters(Function &fn, const ParameterDeclList &parameters)
